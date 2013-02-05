@@ -20,12 +20,12 @@
   xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>remotexulmanager@xulforge.com</em:id>
-    <em:name>Remote XUL Manager</em:name>
-    <em:description>Manages the Remote XUL whitelist.</em:description>
+    <em:id>click-to-play-manager@xulforge.com</em:id>
+    <em:name>Click-to-Play Manager</em:name>
+    <em:description>Manages the Click-to-Play domain whitelist.</em:description>
     <em:version>1.1.4</em:version>
     <em:creator>Jorge Villalobos</em:creator>
-    <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
+    <em:homepageURL>http://github.com/jvillalobos/CTP-Manager</em:homepageURL>
     <em:bootstrap>true</em:bootstrap>
     <em:type>2</em:type>
 
@@ -65,84 +65,15 @@
       </Description>
     </em:targetApplication>
 
-    <!-- Komodo IDE -->
-    <em:targetApplication>
-      <Description>
-        <em:id>{36E66FA0-F259-11D9-850E-000D935D3368}</em:id>
-        <em:minVersion>7.0</em:minVersion>
-        <em:maxVersion>7.*</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-
-    <!-- Komodo Edit -->
-    <em:targetApplication>
-      <Description>
-        <em:id>{b1042fb5-9e9c-11db-b107-000d935d3368}</em:id>
-        <em:minVersion>7.0</em:minVersion>
-        <em:maxVersion>7.*</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-
     <!-- Localized versions of the description-->
     <em:localized>
       <Description>
-        <em:locale>de</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>Verwaltet die Liste der erlaubten Quellen von nicht-nativem XUL.</em:description>
-        <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
-        <em:translator>Archaeopteryx (Babelzilla)</em:translator>
-      </Description>
-    </em:localized>
-    <em:localized>
-      <Description>
         <em:locale>es</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>Administra la lista de XUL Remoto.</em:description>
+        <em:name>Click-to-Play Manager</em:name>
+        <em:description>Administra la lista de dominios permitidos para click-to-play.</em:description>
         <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
+        <em:homepageURL>http://github.com/jvillalobos/CTP-Manager</em:homepageURL>
       </Description>
     </em:localized>
-    <em:localized>
-      <Description>
-        <em:locale>fr</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>Gestion de la liste blanche autorisant le XUL distant.</em:description>
-        <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
-        <em:translator>Goofy (Babelzilla)</em:translator>
-      </Description>
-    </em:localized>
-    <em:localized>
-      <Description>
-        <em:locale>ja-JP</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>リモート XUL ホワイトリストを管理します。</em:description>
-        <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
-        <em:translator>shirayuki (Babelzilla)</em:translator>
-      </Description>
-    </em:localized>
-    <em:localized>
-      <Description>
-        <em:locale>sv-SE</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>Hanterar listan över betrodda fjärr-XUL:er.</em:description>
-        <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
-        <em:translator>Lakrits (Babelzilla)</em:translator>
-      </Description>
-    </em:localized>
-    <em:localized>
-      <Description>
-        <em:locale>zh-CN</em:locale>
-        <em:name>Remote XUL Manager</em:name>
-        <em:description>管理远程 XUL 白名单。</em:description>
-        <em:creator>Jorge Villalobos</em:creator>
-        <em:homepageURL>http://github.com/jvillalobos/Remote-XUL-Manager</em:homepageURL>
-        <em:translator>yfdyh000 (Babelzilla)</em:translator>
-      </Description>
-    </em:localized>
-
   </Description>
 </RDF>

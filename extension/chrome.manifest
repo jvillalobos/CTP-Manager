@@ -14,16 +14,11 @@
 # limitations under the License.
 ##
 
-content   remotexulmanager                content/
-skin      remotexulmanager  classic/1.0   skin/
-content   rxm-modules                     modules/
+content   ctpmanager                  content/
+skin      ctpmanager    classic/1.0   skin/
+content   ctpm-modules                modules/
 
-locale    remotexulmanager  de            locale/de/
-locale    remotexulmanager  en-US         locale/en-US/
-locale    remotexulmanager  es-ES         locale/es/
-locale    remotexulmanager  es-AR         locale/es/
-locale    remotexulmanager  es-CL         locale/es/
-locale    remotexulmanager  fr            locale/fr/
-locale    remotexulmanager  ja-JP         locale/ja-JP/
-locale    remotexulmanager  sv-SE         locale/sv-SE/
-locale    remotexulmanager  zh-CN         locale/zh-CN/
+locale    ctpmanager    en-US         locale/en-US/
+locale    ctpmanager    es-ES         locale/es/
+locale    ctpmanager    es-AR         locale/es/
+locale    ctpmanager    es-CL         locale/es/

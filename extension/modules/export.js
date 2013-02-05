@@ -30,10 +30,10 @@ const FILE_TRUNCATE = 0x20;
 // Character used to introduce comments on export files.
 const COMMENT_CHAR = "#"
 
-Components.utils.import("chrome://rxm-modules/content/rxmCommon.js");
-Components.utils.import("chrome://rxm-modules/content/rxmPermissions.js");
+Components.utils.import("chrome://ctpm-modules/content/common.js");
+Components.utils.import("chrome://ctpm-modules/content/permissions.js");
 
-RXULM.Export = {
+XFPerms.Export = {
   /* Logger for this object. */
   _logger : null,
 
@@ -48,7 +48,7 @@ RXULM.Export = {
    * Initializes the object.
    */
   init : function() {
-    this._logger = RXULM.getLogger("RXULM.Export");
+    this._logger = XFPerms.getLogger("XFPerms.Export");
     this._logger.debug("init");
   },
 
@@ -133,7 +133,7 @@ RXULM.Export = {
           // in case we need to include more data in the future, we'll use
           // commas as separators.
           domain = lineText.split(",")[0];
-          addResult = RXULM.Permissions.add(RXULM.addProtocol(domain));
+          addResult = XFPerms.Permissions.add(XFPerms.addProtocol(domain));
 
           // insert into the right array once we've tried to add it.
           if (addResult) {
@@ -163,4 +163,4 @@ RXULM.Export = {
  */
 (function() {
   this.init();
-}).apply(RXULM.Export);
+}).apply(XFPerms.Export);

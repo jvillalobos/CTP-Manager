@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  - Copyright 2011 Jorge Villalobos
+  - Copyright 2013 Jorge Villalobos
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -18,29 +18,29 @@
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
 <?xml-stylesheet type="text/css"
-  href="chrome://remotexulmanager/skin/rxmManager.css" ?>
+  href="chrome://ctpmanager/skin/ctpManager.css" ?>
 
-<!DOCTYPE window SYSTEM "chrome://remotexulmanager/locale/rxmManager.dtd">
+<!DOCTYPE window SYSTEM "chrome://ctpmanager/locale/ctpManager.dtd">
 
-<window id="remotexulmanager-about-window"
-  windowtype="remotexulmanager-about-window"
-  title="&remotexulmanager.manager.title;"
+<window id="ctpmanager-about-window"
+  windowtype="ctpmanager-about-window"
+  title="&ctpmanager.manager.title;"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript"
-    src="chrome://remotexulmanager/content/rxmManager.js" />
+    src="chrome://ctpmanager/content/ctpManager.js" />
 
   <vbox id="window-content" flex="1">
-    <label control="domains" value="&remotexulmanager.allowed.label;" />
+    <label control="domains" value="&ctpmanager.allowed.label;" />
     <listbox id="domains" rows="15" seltype="multiple"
-      onselect="RXULMChrome.Manager.select(event);" />
-    <button id="add" label="&remotexulmanager.add.label;"
-      accesskey="&remotexulmanager.add.accesskey;"
-      oncommand="RXULMChrome.Manager.add(event);" />
+      onselect="XFPermsChrome.Manager.select(event);" />
+    <button id="add" label="&ctpmanager.add.label;"
+      accesskey="&ctpmanager.add.accesskey;"
+      oncommand="XFPermsChrome.Manager.add(event);" />
     <button id="remove" disabled="true"
-      label="&remotexulmanager.remove.label;"
-      accesskey="&remotexulmanager.remove.accesskey;"
-      oncommand="RXULMChrome.Manager.remove(event);" />
+      label="&ctpmanager.remove.label;"
+      accesskey="&ctpmanager.remove.accesskey;"
+      oncommand="XFPermsChrome.Manager.remove(event);" />
   </vbox>
 
 </window>

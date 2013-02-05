@@ -26,12 +26,12 @@ const FILE_CREATE = 0x08;
 const FILE_TRUNCATE = 0x20;
 
 // The location of the template files.
-const TEMPLATES_URL = "chrome://remotexulmanager/content/templates/";
+const TEMPLATES_URL = "chrome://ctpmanager/content/templates/";
 
-Components.utils.import("chrome://rxm-modules/content/rxmCommon.js");
-Components.utils.import("chrome://rxm-modules/content/rxmPermissions.js");
+Components.utils.import("chrome://ctpm-modules/content/common.js");
+Components.utils.import("chrome://ctpm-modules/content/permissions.js");
 
-RXULM.Generator = {
+XFPerms.Generator = {
   /* Logger for this object. */
   _logger : null,
   /* Generated add-on id. */
@@ -41,7 +41,7 @@ RXULM.Generator = {
    * Initializes the object.
    */
   init : function() {
-    this._logger = RXULM.getLogger("RXULM.Generator");
+    this._logger = XFPerms.getLogger("XFPerms.Generator");
     this._logger.debug("init");
   },
 
@@ -208,7 +208,7 @@ RXULM.Generator = {
     let stream =
       Cc["@mozilla.org/network/file-output-stream;1"].
         createInstance(Ci.nsIFileOutputStream);
-    let installFile = RXULM.getRXMDirectory();
+    let installFile = XFPerms.getDirectory();
 
     installFile.append(aFileName);
 
@@ -233,4 +233,4 @@ RXULM.Generator = {
  */
 (function() {
   this.init();
-}).apply(RXULM.Generator);
+}).apply(XFPerms.Generator);

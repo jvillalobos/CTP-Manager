@@ -15,13 +15,13 @@
 ##
 
 # The name of the extension.
-extension_name := remotexulmanager
+extension_name := click-to-play-manager
 
 # The UUID of the extension.
-extension_uuid := remotexulmanager@xulforge.com
+extension_uuid := click-to-play-manager@xulforge.com
 
 # The name of the profile dir where the extension can be installed.
-profile_dir := remotexulmanager-dev
+profile_dir := click-to-play-manager-dev
 
 # The directory where the template files are located (soft link).
 templates_dir := content/templates

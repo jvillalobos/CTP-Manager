@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-var EXPORTED_SYMBOLS = [ "RXULM" ];
+var EXPORTED_SYMBOLS = [ "XFPerms" ];
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -23,13 +23,13 @@ const FIREFOX_MOBILE_ID = "{a23983c0-fd0e-11dc-95ff-0800200c9a66}";
 const FIREFOX_ANDROID_ID = "{aa3c5121-dab2-40e2-81ca-7ea25febc110}";
 
 Components.utils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("chrome://rxm-modules/content/log4moz.js");
+Components.utils.import("chrome://ctpm-modules/content/log4moz.js");
 
 /**
- * RXULM namespace.
+ * XFPerms namespace.
  */
-if ("undefined" == typeof(RXULM)) {
-  var RXULM = {
+if ("undefined" == typeof(XFPerms)) {
+  var XFPerms = {
     /* Array of timer references, keeps timeouts alive. */
     _timers : [],
 
@@ -45,7 +45,7 @@ if ("undefined" == typeof(RXULM)) {
       let appender;
 
       if (!this.isMobile()) {
-        let logFile = this.getRXMDirectory();
+        let logFile = this.getDirectory();
 
         logFile.append("log.txt");
         // this appender will log to the file system.
@@ -59,11 +59,11 @@ if ("undefined" == typeof(RXULM)) {
       root.addAppender(appender);
 
       // get a Logger specifically for this object.
-      this._logger = this.getLogger("RXULM");
+      this._logger = this.getLogger("XFPerms");
 
       this.stringBundle =
         Services.strings.createBundle(
-          "chrome://remotexulmanager/locale/rxm.properties");
+          "chrome://ctpmanager/locale/ctpm.properties");
     },
 
     /**
@@ -97,10 +97,10 @@ if ("undefined" == typeof(RXULM)) {
      * The directory is created if it doesn't exist.
      * @return reference (nsIFile) to the directory.
      */
-    getRXMDirectory : function() {
+    getDirectory : function() {
       Components.utils.import("resource://gre/modules/FileUtils.jsm");
 
-      return FileUtils.getDir("ProfD", [ "RemoteXULManager" ], true);
+      return FileUtils.getDir("ProfD", [ "CTPManager" ], true);
     },
 
     /**
@@ -142,12 +142,12 @@ if ("undefined" == typeof(RXULM)) {
 
       let domain = aDomain;
 
-      if (null == RXULM.Permissions) {
+      if (null == XFPerms.Permissions) {
         Components.utils.import(
-          "chrome://rxm-modules/content/rxmPermissions.js");
+          "chrome://ctpm-modules/content/permissions.js");
       }
 
-      if ((RXULM.Permissions.LOCAL_FILES != aDomain) &&
+      if ((XFPerms.Permissions.LOCAL_FILES != aDomain) &&
           (0 != aDomain.indexOf("http://")) &&
           (0 != aDomain.indexOf("https://"))) {
         domain = "http://" + aDomain;
@@ -162,5 +162,5 @@ if ("undefined" == typeof(RXULM)) {
    */
   (function() {
     this.init();
-  }).apply(RXULM);
+  }).apply(XFPerms);
 }

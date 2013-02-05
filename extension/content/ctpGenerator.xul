@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  - Copyright 2011 Jorge Villalobos
+  - Copyright 2013 Jorge Villalobos
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -18,22 +18,22 @@
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
 <?xml-stylesheet type="text/css"
-  href="chrome://remotexulmanager/skin/rxmManager.css" ?>
+  href="chrome://ctpmanager/skin/ctpManager.css" ?>
 
-<!DOCTYPE window SYSTEM "chrome://remotexulmanager/locale/rxmGenerator.dtd">
+<!DOCTYPE window SYSTEM "chrome://ctpmanager/locale/ctpGenerator.dtd">
 
-<dialog id="remotexulmanager-generator-dialog"
-  windowtype="remotexulmanager-generator-dialog"
-  title="&remotexulmanager.generator.title;" persist="width height"
+<dialog id="ctpmanager-generator-dialog"
+  windowtype="ctpmanager-generator-dialog"
+  title="&ctpmanager.generator.title;" persist="width height"
   buttons="accept,cancel"
-  buttonlabelaccept="&remotexulmanager.generate.label;"
-  buttonaccesskeyaccept="&remotexulmanager.generate.accesskey;"
+  buttonlabelaccept="&ctpmanager.generate.label;"
+  buttonaccesskeyaccept="&ctpmanager.generate.accesskey;"
   buttondisabledaccept="true"
-  ondialogaccept="RXULMChrome.Generator.generateInstaller(event);"
+  ondialogaccept="XFPermsChrome.Generator.generateInstaller(event);"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript"
-    src="chrome://remotexulmanager/content/rxmGenerator.js" />
+    src="chrome://ctpmanager/content/ctpGenerator.js" />
 
   <commandset>
     <command id="close-command" oncommand="window.close();" />
@@ -45,14 +45,14 @@
 
   <vbox id="window-content" flex="1">
     <description id="intro">
-      &remotexulmanager.generatorIntro.label;
+      &ctpmanager.generatorIntro.label;
     </description>
-    <label control="domains" value="&remotexulmanager.selectDomains.label;" />
+    <label control="domains" value="&ctpmanager.selectDomains.label;" />
     <listbox id="domains" rows="15" seltype="multiple" flex="1"
-      onselect="RXULMChrome.Generator.select(event);" />
+      onselect="XFPermsChrome.Generator.select(event);" />
     <groupbox>
       <description id="labels-intro">
-        &remotexulmanager.labelsIntro.label;
+        &ctpmanager.labelsIntro.label;
       </description>
       <grid id="generate-grid">
         <columns>
@@ -61,33 +61,33 @@
         </columns>
         <rows>
           <row>
-            <label control="title" value="&remotexulmanager.title.label;" />
+            <label control="title" value="&ctpmanager.title.label;" />
             <textbox id="title" flex="1" />
           </row>
           <row>
             <hbox />
             <vbox>
               <label class="default-text"
-                value="&remotexulmanager.default.label;" />
-              <description>Remote XUL Manager</description>
+                value="&ctpmanager.default.label;" />
+              <description>Click-to-Play Manager</description>
             </vbox>
           </row>
           <row>
-            <label control="warning" value="&remotexulmanager.warning.label;" />
+            <label control="warning" value="&ctpmanager.warning.label;" />
             <textbox id="warning" multiline="true" rows="4" flex="1" />
           </row>
           <row>
             <hbox />
             <vbox>
               <label class="default-text"
-                value="&remotexulmanager.default.label;" />
+                value="&ctpmanager.default.label;" />
               <description>
-                The following list of domains will be added to your remote XUL
+                The following list of domains will be added to your click-to-play
                 whitelist. Select OK to accept.
               </description>
               <description>
-                WARNING: Remote XUL is considered insecure and should only be
-                enabled when necessary.
+                WARNING: Plugins can be insecure and unstable, and should only
+                be enabled when necessary.
               </description>
             </vbox>
           </row>

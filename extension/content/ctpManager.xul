@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<!--
+  - Copyright 2013 Jorge Villalobos
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+
+  -    http://www.apache.org/licenses/LICENSE-2.0
+
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://ctpmanager/skin/ctpManager.css" ?>
+
+<!DOCTYPE window SYSTEM "chrome://ctpmanager/locale/ctpManager.dtd">
+
+<window id="ctpmanager-manager-dialog"
+  windowtype="ctpmanager-manager-dialog"
+  title="&ctpmanager.manager.title;" persist="width height"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"
+    src="chrome://ctpmanager/content/ctpManager.js" />
+
+  <commandset>
+    <command id="close-command" oncommand="window.close();" />
+  </commandset>
+
+  <keyset>
+    <key id="close-key" key="W" modifiers="accel" command="close-command" />
+  </keyset>
+
+  <toolbox id="tool-box">
+    <menubar id="menu-bar">
+      <menu id="file-menu" label="&ctpmanager.file.label;"
+        accesskey="&ctpmanager.file.accesskey;">
+        <menupopup>
+          <menuitem id="import-menuitem" label="&ctpmanager.import.label;"
+            accesskey="&ctpmanager.import.accesskey;"
+            oncommand="XFPermsChrome.Manager.importDomains(event);" />
+          <menuitem id="export-menuitem" label="&ctpmanager.export.label;"
+            accesskey="&ctpmanager.export.accesskey;" disabled="true"
+            oncommand="XFPermsChrome.Manager.exportDomains(event);" />
+          <menuseparator />
+          <menuitem id="generate-menuitem"
+            label="&ctpmanager.generate.label;"
+            accesskey="&ctpmanager.generate.accesskey;"
+            oncommand="XFPermsChrome.Manager.launchGenerator(event);" />
+          <menuseparator />
+          <menuitem id="close-menuitem" command="close-command" key="close-key"
+            label="&ctpmanager.close.label;"
+            accesskey="&ctpmanager.close.accesskey;" />
+        </menupopup>
+      </menu>
+    </menubar>
+  </toolbox>
+
+  <vbox id="window-content" flex="1">
+    <label control="domains" value="&ctpmanager.allowed.label;" />
+    <listbox id="domains" rows="15" seltype="multiple" flex="1"
+      onselect="XFPermsChrome.Manager.select(event);" />
+    <hbox id="button-container">
+      <button id="add" label="&ctpmanager.add.label;"
+        accesskey="&ctpmanager.add.accesskey;"
+        oncommand="XFPermsChrome.Manager.add(event);" />
+      <spacer flex="1" />
+      <button id="remove" disabled="true"
+        label="&ctpmanager.remove.label;"
+        accesskey="&ctpmanager.remove.accesskey;"
+        oncommand="XFPermsChrome.Manager.remove(event);" />
+    </hbox>
+  </vbox>
+
+</window>

@@ -24,23 +24,23 @@ function install(aData, aReason) {}
 function uninstall(aData, aReason) {}
 
 function startup(aData, aReason) {
-  RXM.init();
+  CTPM.init();
 }
 
 function shutdown(aData, aReason) {
-  RXM.uninit();
+  CTPM.uninit();
 }
 
-let RXM = {
+let CTPM = {
   _logger : null,
 
   init : function() {
     Components.utils.import("resource://gre/modules/Services.jsm");
-    Components.utils.import("chrome://rxm-modules/content/rxmCommon.js");
+    Components.utils.import("chrome://ctpm-modules/content/common.js");
 
-    this._logger = RXULM.getLogger("RXM");
+    this._logger = XFPerms.getLogger("RXM");
     this._logger.debug("init");
-    this.windowListener._logger = RXULM.getLogger("RXM.windowListener");
+    this.windowListener._logger = XFPerms.getLogger("CTPM.windowListener");
 
     let enumerator = Services.wm.getEnumerator("navigator:browser");
 
@@ -62,7 +62,7 @@ let RXM = {
       this.windowListener.removeUI(enumerator.getNext());
     }
 
-    Components.utils.unload("chrome://rxm-modules/content/rxmCommon.js");
+    Components.utils.unload("chrome://ctpm-modules/content/common.js");
     Components.utils.unload("resource://gre/modules/Services.jsm");
   },
 
@@ -88,8 +88,8 @@ let RXM = {
 
         // add an about: page for mobile devices. This is a simplified version
         // of the UI.
-        if (RXULM.isMobile()) {
-          Components.utils.import("chrome://rxm-modules/content/rxmAbout.js");
+        if (XFPerms.isMobile()) {
+          Components.utils.import("chrome://ctpm-modules/content/ctpAbout.js");
           registerAboutPage();
         }
       },
@@ -106,27 +106,27 @@ let RXM = {
         if ((null != parent) && ("menupopup" == parent.localName)) {
           let menuitem = doc.createElement("menuitem");
 
-          menuitem.setAttribute("id", "rxm-menu-" + aParentId);
+          menuitem.setAttribute("id", "ctpm-menu-" + aParentId);
           menuitem.setAttribute(
-            "label", RXULM.stringBundle.GetStringFromName("rxm.menu.label"));
+            "label", XFPerms.stringBundle.GetStringFromName("ctpm.menu.label"));
           menuitem.setAttribute(
             "accesskey",
-            RXULM.stringBundle.GetStringFromName("rxm.menu.accesskey"));
+            XFPerms.stringBundle.GetStringFromName("ctpm.menu.accesskey"));
 
           menuitem.addEventListener(
             "command",
             function () {
               let win =
                 Services.wm.
-                  getMostRecentWindow("remotexulmanager-manager-dialog");
+                  getMostRecentWindow("ctpmanager-manager-dialog");
 
               // check if a window is already open.
               if ((null != win) && !win.closed) {
                 win.focus();
               } else {
                 aWindow.openDialog(
-                  "chrome://remotexulmanager/content/rxmManager.xul",
-                  "remotexulmanager-manager-dialog",
+                  "chrome://ctpmanager/content/ctpManager.xul",
+                  "ctpmanager-manager-dialog",
                   "chrome,titlebar,centerscreen,dialog,resizable");
               }
             });
@@ -154,9 +154,9 @@ let RXM = {
         this.tryToRemoveMenuItem(aWindow, "toolsPopup");
         this.tryToRemoveMenuItem(aWindow, "popup_tools");
 
-        if (RXULM.isMobile()) {
+        if (XFPerms.isMobile()) {
           unregisterAboutPage();
-          Components.utils.unload("chrome://rxm-modules/content/rxmAbout.js");
+          Components.utils.unload("chrome://ctpm-modules/content/ctpAbout.js");
         }
       },
 
@@ -167,7 +167,7 @@ let RXM = {
         this._logger.debug("tryToRemoveMenuItem");
 
         let doc = aWindow.document;
-        let menuitem = doc.getElementById("rxm-menu-" + aId);
+        let menuitem = doc.getElementById("ctpm-menu-" + aId);
 
         if (null != menuitem) {
           menuitem.parentNode.removeChild(menuitem);

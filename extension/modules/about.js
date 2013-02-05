@@ -22,15 +22,15 @@ const Ci = Components.interfaces;
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
 /**
- * Registers itself as an about: provider, so that about:remotexul points to a
+ * Registers itself as an about: provider, so that about:ctp points to a
  * chrome path in this extension.
  */
-function AboutRXM() {}
+function AboutPage() {}
 
-AboutRXM.prototype = {
-  classDescription : "about:remotexul",
-  contractID : "@mozilla.org/network/protocol/about;1?what=remotexul",
-  classID : Components.ID("{aa76f1c0-a902-4afe-ab37-e51d8c6d2e68}"),
+AboutPage.prototype = {
+  classDescription : "about:ctp",
+  contractID : "@mozilla.org/network/protocol/about;1?what=ctp",
+  classID : Components.ID("{1bcaf6d5-63e5-4ae5-9244-f4dbecc3e770}"),
 
   getURIFlags : function(aURI) {
     return Ci.nsIAboutModule.ALLOW_SCRIPT;
@@ -41,7 +41,7 @@ AboutRXM.prototype = {
       Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
     let channel =
       ioService.newChannel(
-        "chrome://remotexulmanager/content/rxmAbout.xul", null, null);
+        "chrome://ctpmanager/content/about.xul", null, null);
 
     channel.originalURI = aURI;
 
@@ -54,25 +54,25 @@ AboutRXM.prototype = {
 var factory;
 
 if (XPCOMUtils.generateNSGetFactory) {
-  let NSGetFactory = XPCOMUtils.generateNSGetFactory([ AboutRXM ]);
+  let NSGetFactory = XPCOMUtils.generateNSGetFactory([ AboutPage ]);
 
-  factory = NSGetFactory(AboutRXM.prototype.classID);
+  factory = NSGetFactory(AboutPage.prototype.classID);
 }
 
 function registerAboutPage() {
   let compMan = Components.manager.QueryInterface(Ci.nsIComponentRegistrar);
 
-  if (!compMan.isCIDRegistered(AboutRXM.prototype.classID)) {
+  if (!compMan.isCIDRegistered(AboutPage.prototype.classID)) {
     compMan.registerFactory(
-      AboutRXM.prototype.classID, AboutRXM.prototype.classDescription,
-      AboutRXM.prototype.contractID, factory);
+      AboutPage.prototype.classID, AboutPage.prototype.classDescription,
+      AboutPage.prototype.contractID, factory);
   }
 }
 
 function unregisterAboutPage() {
   let compMan = Components.manager.QueryInterface(Ci.nsIComponentRegistrar);
 
-  if (compMan.isCIDRegistered(AboutRXM.prototype.classID)) {
-    compMan.unregisterFactory(AboutRXM.prototype.classID, factory);
+  if (compMan.isCIDRegistered(AboutPage.prototype.classID)) {
+    compMan.unregisterFactory(AboutPage.prototype.classID, factory);
   }
 }

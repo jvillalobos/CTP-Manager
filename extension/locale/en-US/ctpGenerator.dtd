@@ -1,0 +1,31 @@
+<!--
+  - Copyright 2013 Jorge Villalobos
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -    http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<!ENTITY ctpmanager.generator.title       "Installer Generator">
+
+<!ENTITY ctpmanager.generatorIntro.label  "This tool creates an add-on that modifies the Remote XUL whitelist with minimal user intervention.">
+<!ENTITY ctpmanager.selectDomains.label   "Select the domains to include in the installer:">
+
+<!-- Note to translators: "English" is hardcoded in this string, so it shouldn't
+     be changed to the language you're translating to. -->
+<!ENTITY ctpmanager.labelsIntro.label     "The following fields are all optional. If left blank, the installer uses the default messages included, in English only.">
+
+<!ENTITY ctpmanager.default.label         "Default text:">
+<!ENTITY ctpmanager.title.label           "Title">
+<!ENTITY ctpmanager.warning.label         "Warning message">
+
+<!ENTITY ctpmanager.generate.label        "Generate">
+<!ENTITY ctpmanager.generate.accesskey    "G">
