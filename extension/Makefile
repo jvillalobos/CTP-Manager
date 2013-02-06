@@ -71,8 +71,6 @@ template_files := $(templates_dir)/install.rdf \
 xpi_built := install.rdf \
              bootstrap.js \
              chrome.manifest \
-             icon.png \
-             icon64.png \
              $(wildcard content/*.js) \
              $(wildcard content/*.xul) \
              $(wildcard content/*.xml) \
@@ -84,7 +82,8 @@ xpi_built := install.rdf \
              $(wildcard modules/*.js) \
              $(wildcard components/*.js) \
              $(template_files) \
-#             defaults/preferences/$(extension_name).js
+#             icon.png \
+#             icon64.png
 
 $(xpi_file): $(xpi_built)
 	@echo "Creating XPI file."

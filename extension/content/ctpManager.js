@@ -100,9 +100,9 @@ XFPermsChrome.Manager = {
 
     promptResponse =
       Services.prompt.prompt(
-        window, XFPerms.stringBundle.GetStringFromName("rxm.addDomain.title"),
+        window, XFPerms.stringBundle.GetStringFromName("ctpm.addDomain.title"),
         XFPerms.stringBundle.formatStringFromName(
-          "rxm.enterDomain.label", [ XFPerms.Permissions.LOCAL_FILES ], 1),
+          "ctpm.enterDomain.label", [ XFPerms.Permissions.LOCAL_FILES ], 1),
         domain, null, { value : false });
 
     if (promptResponse) {
@@ -209,7 +209,7 @@ XFPermsChrome.Manager = {
         fp.defaultString = "domains." + XFPerms.Export.DEFAULT_EXTENSION;
         fp.init(
           window,
-          XFPerms.stringBundle.GetStringFromName("rxm.exportSelected.title"),
+          XFPerms.stringBundle.GetStringFromName("ctpm.exportSelected.title"),
           Ci.nsIFilePicker.modeSave);
         fp.appendFilters(Ci.nsIFilePicker.filterAll);
 

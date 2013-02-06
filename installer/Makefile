@@ -1,5 +1,5 @@
 ##
-# Copyright 2011 Jorge Villalobos
+# Copyright 2013 Jorge Villalobos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 ##
 
 # The name of the extension.
-extension_name := remotexulinstaller
+extension_name := clicktoplayinstaller
 
 # First part of the add-on id. Generated to avoid conflicts.
 id := $(shell uuidgen)

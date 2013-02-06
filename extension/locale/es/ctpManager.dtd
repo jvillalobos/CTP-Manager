@@ -14,7 +14,7 @@
   - limitations under the License.
   -->
 
-<!ENTITY ctpmanager.manager.title       "Administrador de XUL Remoto">
+<!ENTITY ctpmanager.manager.title       "Administrador de Click-to-Play">
 
 <!ENTITY ctpmanager.file.label          "Archivo">
 <!ENTITY ctpmanager.file.accesskey      "A">
@@ -27,7 +27,7 @@
 <!ENTITY ctpmanager.close.label         "Cerrar">
 <!ENTITY ctpmanager.close.accesskey     "C">
 
-<!ENTITY ctpmanager.allowed.label       "Dominios con permiso de XUL remoto:">
+<!ENTITY ctpmanager.allowed.label       "Dominios con permiso de Click-to-Play:">
 <!ENTITY ctpmanager.add.label           "Agregar...">
 <!ENTITY ctpmanager.add.accesskey       "A">
 <!ENTITY ctpmanager.remove.label        "Remover">

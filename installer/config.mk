@@ -1,5 +1,5 @@
 ##
-# Copyright 2011 Jorge Villalobos
+# Copyright 2013 Jorge Villalobos
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 ##
 
 # List of domains to whitelist.
-# Example: "mozilla.org", "xulforge.com", "<file>"
+# Example: "mozilla.org", "xulforge.com", "developer.mozilla.org"
 domains := "mozilla.org"
 
 # Localized version of the dialog titles (optional, no quotes).

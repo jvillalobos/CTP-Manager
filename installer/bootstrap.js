@@ -24,25 +24,23 @@ function uninstall(aData, aReason) {}
 function shutdown(aData, aReason) {}
 
 function startup(aData, aReason) {
-  RXULMInstaller.init(aReason);
+  CTPMInstaller.init(aReason);
 }
 
-var RXULMInstaller = {
+var CTPMInstaller = {
 
-  ALLOW_REMOTE_XUL : "allowXULXBL",
+  PERMISSION_NAME : "plugins",
   ALLOW : 1,
-  LOCAL_FILES : "<file>",
-  LOCAL_FILE_PREF : "dom.allow_XUL_XBL_for_file",
 
   // The list of domains to include on the whitelist.
   DOMAINS : [ $(DOMAINS) ],
   // Title for dialogs and optional, localized version of the message.
-  TITLE : "Remote XUL Manager",
+  TITLE : "Click-to-Play Manager",
   TITLE_LOCALIZED : "$(TITLE)",
   // Installation warning and optional, localized version of the message.
   WARNING :
-    "The following list of domains will be added to your remote XUL " +
-    "whitelist. Select OK to accept.\nWARNING: Remote XUL is considered " +
+    "The following list of domains will be added to your Click-to-Play " +
+    "whitelist. Select OK to accept.\nWARNING: Plugins can be unstable or " +
     "insecure and should only be enabled when necessary.",
   WARNING_LOCALIZED : "$(WARNING)",
 
@@ -84,7 +82,7 @@ var RXULMInstaller = {
       let hasLocalFiles = false;
       let domain;
 
-      if ((0 < domainCount) && this._showXULWarning()) {
+      if ((0 < domainCount) && this._showWarningMessage()) {
         // read all data.
         for (let i = 0 ; i < domainCount ; i++) {
           domain = this.DOMAINS[i];
@@ -108,24 +106,20 @@ var RXULMInstaller = {
   },
 
   /**
-   * Add a domain to the remote XUL list.
-   * @param aDomain the domain to add. null to add all local files.
+   * Add a domain to the whitelist.
+   * @param aDomain the domain to add.
    */
   _add : function(aDomain) {
     try {
-      if (this.LOCAL_FILES != aDomain) {
-        let uri;
+      let uri;
 
-        if ((0 != aDomain.indexOf("http://")) &&
-            (0 != aDomain.indexOf("https://"))) {
-          aDomain = "http://" + aDomain;
-        }
-
-        uri = Services.io.newURI(aDomain, null, null);
-        Services.perms.add(uri, this.ALLOW_REMOTE_XUL, this.ALLOW);
-      } else {
-        Services.prefs.setBoolPref(this.LOCAL_FILE_PREF, true);
+      if ((0 != aDomain.indexOf("http://")) &&
+          (0 != aDomain.indexOf("https://"))) {
+        aDomain = "http://" + aDomain;
       }
+
+      uri = Services.io.newURI(aDomain, null, null);
+      Services.perms.add(uri, this.PERMISSION_NAME, this.ALLOW);
     } catch (e) {
       this._showAlert(
         "Unexpected error adding domain '" + aDomain + "':\n" + e);
@@ -133,11 +127,11 @@ var RXULMInstaller = {
   },
 
   /**
-   * Shows a warning indicating that remote XUL should be used carefully and
+   * Shows a warning indicating that this should be accepted carefully and
    * asking the user if it's OK to proceed.
    * @return true if the user accepts the dialog, false if the user rejects it.
    */
-  _showXULWarning : function() {
+  _showWarningMessage : function() {
     let title =
       ((0 < this.TITLE_LOCALIZED.length) ? this.TITLE_LOCALIZED : this.TITLE);
     let content =
@@ -170,7 +164,7 @@ var RXULMInstaller = {
    */
   _suicide : function() {
     AddonManager.getAddonByID(
-      "$(ID)@rxm.xulforge.com",
+      "$(ID)@ctpm.xulforge.com",
       function(aAddon) {
         aAddon.uninstall();
       });

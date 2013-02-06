@@ -16,7 +16,7 @@
 
 <!ENTITY ctpmanager.generator.title       "Installer Generator">
 
-<!ENTITY ctpmanager.generatorIntro.label  "This tool creates an add-on that modifies the Remote XUL whitelist with minimal user intervention.">
+<!ENTITY ctpmanager.generatorIntro.label  "This tool creates an add-on that modifies the Click-to-Play whitelist with minimal user intervention.">
 <!ENTITY ctpmanager.selectDomains.label   "Select the domains to include in the installer:">
 
 <!-- Note to translators: "English" is hardcoded in this string, so it shouldn't

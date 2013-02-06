@@ -16,7 +16,7 @@
 
 <!ENTITY ctpmanager.generator.title       "Generador de Instalador">
 
-<!ENTITY ctpmanager.generatorIntro.label  "Esta herramienta crea un complemento que modifica la lista de XUL remoto con intervención mínima del usuario.">
+<!ENTITY ctpmanager.generatorIntro.label  "Esta herramienta crea un complemento que modifica la lista de Click-to-Play con intervención mínima del usuario.">
 <!ENTITY ctpmanager.selectDomains.label   "Seleccione los dominios a incluir en el instalador:">
 
 <!ENTITY ctpmanager.labelsIntro.label     "Los siguientes campos son opcionales. Si se dejan en blanco, el instalador utiliza los mensajes por defecto, en inglés.">
