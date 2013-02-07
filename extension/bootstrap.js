@@ -78,11 +78,11 @@ let CTPM = {
         this._logger.debug("addUI");
 
         // full Firefox menu
-        this.tryToAddMenuItemAt(aWindow, "menuWebDeveloperPopup");
+        this.tryToAddMenuItemAt(aWindow, "menu_ToolsPopup");
         // Firefox app menu
         this.tryToAddMenuItemAt(aWindow, "appmenu_webDeveloper_popup");
         // SeaMonkey menu
-        this.tryToAddMenuItemAt(aWindow, "toolsPopup");
+        this.tryToAddMenuItemAt(aWindow, "taskPopup");
         // Komodo menu
         this.tryToAddMenuItemAt(aWindow, "popup_tools");
 
@@ -131,14 +131,22 @@ let CTPM = {
               }
             });
 
-          if ("menuWebDeveloperPopup" == aParentId) {
-            parent.insertBefore(
-              menuitem, doc.getElementById("devToolsEndSeparator"));
-          } else if ("appmenu_webDeveloper_popup" == aParentId) {
-            parent.insertBefore(
-              menuitem, doc.getElementById("appmenu_pageInspect").nextSibling);
-          } else {
-            parent.appendChild(menuitem);
+          switch (aParentId) {
+            case "menu_ToolsPopup":
+              parent.insertBefore(
+                menuitem, doc.getElementById("sanitizeSeparator"));
+              break;
+            case "appmenu_webDeveloper_popup":
+              parent.insertBefore(
+                menuitem, doc.getElementById("appmenu_pageInspect").nextSibling);
+              break;
+            case "taskPopup":
+              parent.insertBefore(
+                menuitem, doc.getElementById("sync-setup"));
+              break;
+            default:
+              parent.appendChild(menuitem);
+              break;
           }
         }
       },
@@ -149,9 +157,9 @@ let CTPM = {
       removeUI : function(aWindow) {
         this._logger.debug("removeUI");
 
-        this.tryToRemoveMenuItem(aWindow, "menuWebDeveloperPopup");
+        this.tryToRemoveMenuItem(aWindow, "menu_ToolsPopup");
         this.tryToRemoveMenuItem(aWindow, "appmenu_webDeveloper_popup");
-        this.tryToRemoveMenuItem(aWindow, "toolsPopup");
+        this.tryToRemoveMenuItem(aWindow, "taskPopup");
         this.tryToRemoveMenuItem(aWindow, "popup_tools");
 
         if (XFPerms.isMobile()) {
