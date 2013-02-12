@@ -89,7 +89,7 @@ let CTPM = {
         // add an about: page for mobile devices. This is a simplified version
         // of the UI.
         if (XFPerms.isMobile()) {
-          Components.utils.import("chrome://ctpm-modules/content/ctpAbout.js");
+          Components.utils.import("chrome://ctpm-modules/content/about.js");
           registerAboutPage();
         }
       },

@@ -1,4 +1,4 @@
-This is a Firefox add-on that manages the domain whitelist for the plugin Click-to-Play feature. While this whitelist can be modified on demand, when visiting sites that use plugins, this might not work correctly on some edge cases, and network administrators might want to have a predetermined whitelist. This add-on simplifies those tasks.
+This is a Firefox add-on that manages the domain whitelist for the plugin Click-to-Play feature. While this whitelist can be modified on demand when visiting sites that use plugins, this might not work correctly on some edge cases, and network administrators might want to have a predetermined whitelist. This add-on simplifies doing this.
 
 **How to use on Desktop Firefox (and SeaMonkey)**
 
@@ -11,11 +11,13 @@ This is a Firefox add-on that manages the domain whitelist for the plugin Click-
 1. Enter *about:ctp* in the address bar.
 2. To add a domain, click on the Add button and then enter the domain name of the site you want to add to the list (*www.mozilla.org*, for example).
 3. That's it! You should be able to access the site again without any problems.
-4. It's recommended that you bookmark the management page so that it's easy to come back to it.
+4. It's recommended that you bookmark the management page so that it's easy to get back to it.
 
 **Advanced Features**
 
-- A generator tool that creates an extension installer with a predefined whitelist. The generated extension doesn't require a restart to install, displays a warning message explaining what is happening, giving the user the option to cancel, and then removes itself.
+Both of these can be found in the File menu on the main management window.
+
+- A generator tool that creates an extension installer with a predefined whitelist. The generated extension doesn't require a restart to install, displays a warning message explaining what is happening and giving the user the option to cancel, and then removes itself.
 - An import / export tool that uses simple text files for the whitelist. Files have a simple "one domain per line" format, using hashes (#) as the first character for commenting.
 
 These features are not available on the mobile versions, but you can install the generated installers on them.

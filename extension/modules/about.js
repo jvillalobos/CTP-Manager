@@ -41,7 +41,7 @@ AboutPage.prototype = {
       Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
     let channel =
       ioService.newChannel(
-        "chrome://ctpmanager/content/about.xul", null, null);
+        "chrome://ctpmanager/content/ctpAbout.xul", null, null);
 
     channel.originalURI = aURI;
 
