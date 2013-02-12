@@ -138,7 +138,7 @@ let CTPM = {
               break;
             case "appmenu_webDeveloper_popup":
               parent.insertBefore(
-                menuitem, doc.getElementById("appmenu_pageInspect").nextSibling);
+                menuitem, doc.getElementById("appmenu_devToolsEndSeparator"));
               break;
             case "taskPopup":
               parent.insertBefore(
