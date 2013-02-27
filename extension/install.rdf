@@ -23,7 +23,7 @@
     <em:id>click-to-play-manager@xulforge.com</em:id>
     <em:name>Click-to-Play Manager</em:name>
     <em:description>Manages the Click-to-Play domain whitelist.</em:description>
-    <em:version>1.0</em:version>
+    <em:version>1.0.1</em:version>
     <em:creator>Jorge Villalobos</em:creator>
     <em:homepageURL>http://github.com/jvillalobos/CTP-Manager</em:homepageURL>
     <em:bootstrap>true</em:bootstrap>

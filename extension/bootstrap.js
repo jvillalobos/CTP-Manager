@@ -63,7 +63,6 @@ let CTPM = {
     }
 
     Components.utils.unload("chrome://ctpm-modules/content/common.js");
-    Components.utils.unload("resource://gre/modules/Services.jsm");
   },
 
   windowListener :

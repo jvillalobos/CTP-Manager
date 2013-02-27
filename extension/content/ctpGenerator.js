@@ -53,7 +53,6 @@ XFPermsChrome.Generator = {
   uninit : function() {
     Components.utils.unload("chrome://ctpm-modules/content/generator.js");
     Components.utils.unload("chrome://ctpm-modules/content/common.js");
-    Components.utils.unload("resource://gre/modules/Services.jsm");
   },
 
   /**
