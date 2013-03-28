@@ -82,7 +82,7 @@ var CTPMInstaller = {
       let hasLocalFiles = false;
       let domain;
 
-      if ((0 < domainCount) && this._showWarningMessage()) {
+      if ((0 < domainCount) && ( ! $(SILENT) || this._showWarningMessage())) {
         // read all data.
         for (let i = 0 ; i < domainCount ; i++) {
           domain = this.DOMAINS[i];
