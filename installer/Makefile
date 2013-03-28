@@ -14,11 +14,13 @@
 # limitations under the License.
 ##
 
+include config.mk
+
 # The name of the extension.
-extension_name := clicktoplayinstaller
+extension_name ?= clicktoplayinstaller
 
 # First part of the add-on id. Generated to avoid conflicts.
-id := $(shell uuidgen)
+id ?= $(shell uuidgen)
 
 # The zip application to be used.
 ZIP := zip
@@ -57,8 +59,6 @@ $(xpi_file): $(build_dir) $(xpi_built)
 	@echo "Creating XPI file."
 	@cd $(build_dir); $(ZIP) ../$(xpi_file) $(xpi_built_no_dir)
 	@echo "Creating XPI file. Done!"
-
-include config.mk
 
 $(build_dir)/%: %
 	@sed -E \
