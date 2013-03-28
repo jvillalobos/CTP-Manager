@@ -23,3 +23,6 @@ title_localized :=
 
 # Localized version of the warning message (optional, no quotes).
 warning_localized :=
+
+# show a message or not on boot
+silent := false
