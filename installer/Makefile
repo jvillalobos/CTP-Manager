@@ -60,7 +60,7 @@ $(xpi_file): $(build_dir) $(xpi_built)
 
 include config.mk
 
-$(build_dir)/%: %
+$(build_dir)/%: % config.mk
 	@sed -E \
     -e 's/\$$\(ID\)/$(id)/g' \
     -e 's/\$$\(DOMAINS\)/$(domains)/g' \
