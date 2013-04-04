@@ -45,10 +45,10 @@
         <menupopup>
           <menuitem id="import-menuitem" label="&ctpmanager.import.label;"
             accesskey="&ctpmanager.import.accesskey;"
-            oncommand="XFPermsChrome.Manager.importDomains(event);" />
+            oncommand="XFPermsChrome.Manager.importPermissions(event);" />
           <menuitem id="export-menuitem" label="&ctpmanager.export.label;"
             accesskey="&ctpmanager.export.accesskey;" disabled="true"
-            oncommand="XFPermsChrome.Manager.exportDomains(event);" />
+            oncommand="XFPermsChrome.Manager.exportPermissions(event);" />
           <menuseparator />
           <menuitem id="generate-menuitem"
             label="&ctpmanager.generate.label;"

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<!--
+  - Copyright 2013 Jorge Villalobos
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+
+  -    http://www.apache.org/licenses/LICENSE-2.0
+
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://ctpmanager/skin/ctpManager.css" ?>
+
+<!DOCTYPE dialog SYSTEM "chrome://ctpmanager/locale/ctpManager.dtd">
+
+<dialog id="ctpmanager-add-dialog"
+  windowtype="ctpmanager-add-dialog"
+  title="&ctpmanager.addPermission.title;"
+  buttonlabelaccept="&ctpmanager.add2.label;"
+  buttonaccesskeyaccept="&ctpmanager.add.accesskey;"
+  ondialogaccept="return XFPermsChrome.Add.accept();"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"
+    src="chrome://ctpmanager/content/ctpManagerAdd.js" />
+
+    <label control="domain" value="&ctpmanager.domain.label;" />
+    <textbox id="domain" />
+    <label control="plugins" value="&ctpmanager.plugins.label;" />
+    <listbox id="plugins" rows="15" seltype="multiple" flex="1"
+      onselect="XFPermsChrome.Add.select(event);"/>
+</dialog>

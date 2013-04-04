@@ -46,14 +46,14 @@ XFPerms.Generator = {
   },
 
   /**
-   * Generates an installer package from the selected domains and with the given
-   * configuration parameters.
+   * Generates an installer package from the selected permissions and with the
+   * given configuration parameters.
    * @param aFile the nsIFile where the package will be written to.
-   * @param aDomains the list of domains to include in the package.
+   * @param aPermissions the list of permissions to include in the package.
    * @param aTitle an optional localized title for dialogs in the installer.
    * @param aWarning an optional localizaed warning message.
    */
-  generateInstaller : function(aFile, aDomains, aTitle, aWarning) {
+  generateInstaller : function(aFile, aPermissions, aTitle, aWarning) {
     this._logger.debug("generateInstaller");
 
     let zipWriter =
@@ -64,9 +64,9 @@ XFPerms.Generator = {
     // prepare the contents of the package.
     this._generateId();
     rdfFile =
-      this._getInstallFile("install.rdf", aDomains, aTitle, aWarning);
+      this._getInstallFile("install.rdf", aPermissions, aTitle, aWarning);
     bootFile =
-      this._getInstallFile("bootstrap.js", aDomains, aTitle, aWarning);
+      this._getInstallFile("bootstrap.js", aPermissions, aTitle, aWarning);
 
     try {
       // write the package.
@@ -106,12 +106,12 @@ XFPerms.Generator = {
    * Gets the installer file with its contents replaced with the values of the
    * parameters.
    * @param aFileName the name of the file to get.
-   * @param aDomains the list of domains to include in the package.
+   * @param aPermissions the list of permissions to include in the package.
    * @param aTitle an optional localized title for dialogs in the installer.
    * @param aWarning an optional localizaed warning message.
    * @return nsIFile pointing to the installer file.
    */
-  _getInstallFile : function(aFileName, aDomains, aTitle, aWarning) {
+  _getInstallFile : function(aFileName, aPermissions, aTitle, aWarning) {
     this._logger.trace("_getInstallFile");
 
     let contents = this._getUrlContents(TEMPLATES_URL + aFileName);
@@ -119,7 +119,8 @@ XFPerms.Generator = {
     // replace all parameters in the template.
     contents = contents.replace(/\$\(ID\)/g, this._generatedId);
     contents =
-      contents.replace(/\$\(DOMAINS\)/g, this._domainArrayToString(aDomains));
+      contents.replace(
+        /\$\(PERMISSIONS\)/g, this._createPermissionsString(aPermissions));
 
     if (("string" == typeof(aTitle)) && (0 < aTitle.length)) {
       contents = contents.replace(/\$\(TITLE\)/g, aTitle);
@@ -174,25 +175,29 @@ XFPerms.Generator = {
   },
 
   /**
-   * Converts the domains array into a string to be used in the installer files.
-   * @param aDomains the array of domains to include.
+   * Converts the permissions array into a string to be used in the installer
+   * files.
+   * @param aPermissions the array of permissions to include.
    * @return string that represents the domain array.
    */
-  _domainArrayToString : function(aDomains) {
+  _createPermissionsString : function(aPermissions) {
     this._logger.trace("_domainArrayToString");
 
-    let domainString = "";
-    let domainCount = aDomains.length;
+    let permsString = "";
+    let permsCount = aPermissions.length;
 
-    for (let i = 0; i < domainCount; i++) {
+    for (let i = 0; i < permsCount; i++) {
       if (0 != i) {
-        domainString += ",";
+        permsString += ",";
       }
 
-      domainString += "\"" + aDomains[i] + "\"";
+      permsString +=
+        "{ domain : \"" + aPermissions[i].domain + "\", plugin : " +
+        ((null != aPermissions[i].plugin) ?
+         ("\"" + aPermissions[i].plugin + "\"") : "null") + " }";
     }
 
-    return domainString;
+    return permsString;
   },
 
   /**

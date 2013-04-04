@@ -55,17 +55,17 @@ XFPerms.Export = {
   /**
    * Exports the list of given domains to the selected file. All existing data
    * in the file will be deleted.
-   * @param aDomains array of domains to export.
+   * @param aPermissions array of permissions to export.
    * @param aFile the file to export the domains to.
    * @return true if the operation was successful, false otherwise.
    */
-  exportDomains : function(aDomains, aFile) {
-    this._logger.debug("exportDomains");
+  exportPermissions : function(aPermissions, aFile) {
+    this._logger.debug("exportPermissions");
 
     let stream =
       Cc["@mozilla.org/network/file-output-stream;1"].
         createInstance(Ci.nsIFileOutputStream);
-    let count = aDomains.length;
+    let count = aPermissions.length;
     let result = false;
     let line;
 
@@ -76,7 +76,13 @@ XFPerms.Export = {
 
       // write all data.
       for (let i = 0; i < count; i++) {
-        line = aDomains[i] + "\n";
+        line = aPermissions[i].domain;
+
+        if (null != aPermissions[i].plugin) {
+          line += "," + aPermissions[i].plugin;
+        }
+
+        line += "\n";
         stream.write(line, line.length);
       }
 
@@ -85,7 +91,7 @@ XFPerms.Export = {
       stream = null;
       result = true;
     } catch (e) {
-      this._logger.error("exportDomains\n" + e);
+      this._logger.error("exportPermissions\n" + e);
     }
 
     return result;
@@ -99,8 +105,8 @@ XFPerms.Export = {
    * RESULT_ flags in the Permissions object), a list of valid domains
    * (.domains) and the list of invalid domains (.invalids).
    */
-  importDomains : function(aFile) {
-    this._logger.debug("importDomains");
+  importPermissions : function(aFile) {
+    this._logger.debug("importPermissions");
 
     let stream =
       Cc["@mozilla.org/network/file-input-stream;1"].
@@ -115,7 +121,9 @@ XFPerms.Export = {
     let addResult;
     let hasMore;
     let lineText;
+    let split;
     let domain;
+    let plugin;
 
     try {
       // open the file stream.
@@ -132,8 +140,12 @@ XFPerms.Export = {
         if ((0 < lineText.length) && (COMMENT_CHAR != lineText[0])) {
           // in case we need to include more data in the future, we'll use
           // commas as separators.
-          domain = lineText.split(",")[0];
-          addResult = XFPerms.Permissions.add(XFPerms.addProtocol(domain));
+          split = lineText.split(",");
+          domain = split[0];
+          plugin = ((2 <= split.length) ? split[1] : null);
+
+          addResult =
+            XFPerms.Permissions.add(XFPerms.addProtocol(domain), plugin);
 
           // insert into the right array once we've tried to add it.
           if (addResult) {
@@ -147,7 +159,7 @@ XFPerms.Export = {
 
       result.success = true;
     } catch (e) {
-      this._logger.error("importDomains\n" + e);
+      this._logger.error("importPermissions\n" + e);
     }
 
     // close the stream.

@@ -49,8 +49,6 @@ XFPermsChrome.Manager = {
    * Uninitializes the object.
    */
   uninit : function() {
-    Components.utils.unload("chrome://ctpm-modules/content/permissions.js");
-    Components.utils.unload("chrome://ctpm-modules/content/common.js");
   },
 
   /**
@@ -60,22 +58,59 @@ XFPermsChrome.Manager = {
     this._logger.trace("_loadPermissions");
 
     try {
-      let domains = document.getElementById("domains");
+      let permissions = document.getElementById("domains");
       let generateItem = document.getElementById("generate-menuitem");
       let allowed = XFPerms.Permissions.getAll();
       let allowedCount = allowed.length;
       let item;
+      let cell1;
+      let cell2;
 
       // clear the current list.
-      while (null != domains.firstChild) {
-        domains.removeChild(domains.firstChild);
+      while (null != permissions.firstChild) {
+        permissions.removeChild(permissions.firstChild);
+      }
+
+      if (!XFPerms.Permissions.isSinglePermission()) {
+        let head = document.createElement("listhead");
+        let header1 = document.createElement("listheader");
+        let header2 = document.createElement("listheader");
+
+        header1.setAttribute(
+          "label", XFPerms.stringBundle.GetStringFromName("ctpm.domain.label"));
+        header2.setAttribute(
+          "label", XFPerms.stringBundle.GetStringFromName("ctpm.plugin.label"));
+
+        head.appendChild(header1);
+        head.appendChild(header2);
+        permissions.appendChild(head);
       }
 
       for (let i = 0; i < allowedCount; i++) {
-        item = document.createElement("listitem");
-        item.setAttribute("label", allowed[i]);
-        item.setAttribute("value", allowed[i]);
-        domains.appendChild(item);
+        if (!XFPerms.Permissions.isSinglePermission() &&
+            (null != allowed[i].plugin)) {
+          item = document.createElement("listitem");
+
+          // Firefox 20 and above, 2 columns.
+          cell1 = document.createElement("listcell");
+          cell1.setAttribute("label", allowed[i].domain);
+          item.appendChild(cell1);
+
+          cell2 = document.createElement("listcell");
+          cell2.setAttribute("label", allowed[i].name);
+          cell2.setAttribute("value", allowed[i].plugin);
+          item.appendChild(cell2);
+          permissions.appendChild(item);
+        } else if (XFPerms.Permissions.isSinglePermission() &&
+                   (null == allowed[i].plugin)) {
+          item = document.createElement("listitem");
+
+          // Firefox 19 and lower, 1 column.
+          cell1 = document.createElement("listcell");
+          cell1.setAttribute("label", allowed[i].domain);
+          item.appendChild(cell1);
+          permissions.appendChild(item);
+        }
       }
 
       // null in the about: window.
@@ -88,35 +123,41 @@ XFPermsChrome.Manager = {
   },
 
   /**
-   * Adds a new domain to the list.
+   * Adds a new permission to the list.
    * @param aEvent the event that triggered this action.
    */
   add : function(aEvent) {
     this._logger.debug("add");
 
-    let domain = { value : "" };
-    let promptResponse;
+    if (XFPerms.Permissions.isSinglePermission()) {
+      let domain = { value : "" };
+      let promptResponse;
 
-    promptResponse =
-      Services.prompt.prompt(
-        window, XFPerms.stringBundle.GetStringFromName("ctpm.addDomain.title"),
-        XFPerms.stringBundle.formatStringFromName(
-          "ctpm.enterDomain.label", [ XFPerms.Permissions.LOCAL_FILES ], 1),
-        domain, null, { value : false });
+      promptResponse =
+        Services.prompt.prompt(
+          window, XFPerms.stringBundle.GetStringFromName("ctpm.addDomain.title"),
+          XFPerms.stringBundle.formatStringFromName(
+            "ctpm.enterDomain.label", [ XFPerms.Permissions.LOCAL_FILES ], 1),
+          domain, null, { value : false });
 
-    if (promptResponse) {
-      let success = XFPerms.Permissions.add(XFPerms.addProtocol(domain.value));
+      if (promptResponse) {
+        let success = XFPerms.Permissions.add(XFPerms.addProtocol(domain.value));
 
-      if (success) {
-        this._loadPermissions();
-      } else {
-        this._alert("ctpm.addDomain.title", "ctpm.invalidDomain.label");
+        if (!success) {
+          this._alert("ctpm.addDomain.title", "ctpm.invalidDomain.label");
+        }
       }
+    } else {
+      window.openDialog(
+        "chrome://ctpmanager/content/ctpManagerAdd.xul",
+        "ctpmanager-manager-add-dialog", "chrome,centerscreen,dialog,modal");
     }
+
+    this._loadPermissions();
   },
 
   /**
-   * Removes the selected domains from the list.
+   * Removes the selected permissions from the list.
    * @param aEvent the event that triggered this action.
    */
   remove : function(aEvent) {
@@ -131,6 +172,8 @@ XFPermsChrome.Manager = {
         "ctpm.removeMany.label", [ count ], 1));
     let doRemove;
     let item;
+    let domain;
+    let plugin;
 
     doRemove =
       Services.prompt.confirm(
@@ -141,7 +184,12 @@ XFPermsChrome.Manager = {
       try {
         for (let i = 0; i < count; i ++) {
           item = selected[i];
-          XFPerms.Permissions.remove(item.getAttribute("value"));
+          domain = item.childNodes[0].getAttribute("label");
+          plugin =
+            ((null != item.childNodes[1]) ?
+             item.childNodes[1].getAttribute("value") : null);
+
+          XFPerms.Permissions.remove(domain, plugin);
         }
       } catch (e) {
         this._logger.debug("remove\n" + e);
@@ -175,21 +223,27 @@ XFPermsChrome.Manager = {
    * Displays a file selection dialog to choose the file to export to. If
    * chosen, the selected domains will be exported to that file.
    */
-  exportDomains : function(aEvent) {
-    this._logger.debug("exportDomains");
+  exportPermissions : function(aEvent) {
+    this._logger.debug("exportPermissions");
 
     let selected = document.getElementById("domains").selectedItems;
     let count = selected.length;
     let domains = [];
     let domain;
+    let plugin;
 
     try {
       for (let i = 0; i < count; i ++) {
-        domain = selected[i].getAttribute("value");
-        domains.push(XFPerms.addProtocol(domain));
+        domain = selected[i].childNodes[0].getAttribute("label");
+        plugin =
+          ((null != selected[i].childNodes[1]) ?
+           selected[i].childNodes[1].getAttribute("label") : null);
+
+        domains.push(
+          { domain : XFPerms.addProtocol(domain), plugin : plugin });
       }
     } catch (e) {
-      this._logger.error("exportDomains\n" + e);
+      this._logger.error("exportPermissions\n" + e);
     }
 
     if (0 < domains.length) {
@@ -217,11 +271,11 @@ XFPermsChrome.Manager = {
 
         if ((Ci.nsIFilePicker.returnOK == winResult) ||
             (Ci.nsIFilePicker.returnReplace == winResult)) {
-          success = XFPerms.Export.exportDomains(domains, fp.file);
+          success = XFPerms.Export.exportPermissions(domains, fp.file);
         }
       } catch (e) {
         success = false;
-        this._logger.error("exportDomains\n" + e);
+        this._logger.error("exportPermissions\n" + e);
       }
 
       // if an error happens, alert the user.
@@ -231,7 +285,7 @@ XFPermsChrome.Manager = {
     } else {
       // how did we get here???
       this._logger.error(
-        "exportDomains. Tried to export with no domains selected.");
+        "exportPermissions. Tried to export with no domains selected.");
     }
   },
 
@@ -239,8 +293,8 @@ XFPermsChrome.Manager = {
    * Displays a file selection dialog to choose the file to import from. If
    * chosen, the domains will be imported from that file.
    */
-  importDomains : function(aEvent) {
-    this._logger.debug("importDomains");
+  importPermissions : function(aEvent) {
+    this._logger.debug("importPermissions");
 
     let success = true;
 
@@ -265,7 +319,7 @@ XFPermsChrome.Manager = {
 
       if ((Ci.nsIFilePicker.returnOK == winResult) ||
           (Ci.nsIFilePicker.returnReplace == winResult)) {
-        let result = XFPerms.Export.importDomains(fp.file);
+        let result = XFPerms.Export.importPermissions(fp.file);
 
         success = result.success;
 
@@ -298,7 +352,7 @@ XFPermsChrome.Manager = {
       this._loadPermissions();
     } catch (e) {
       success = false;
-      this._logger.error("importDomains\n" + e);
+      this._logger.error("importPermissions\n" + e);
     }
 
     if (!success) {

@@ -62,12 +62,19 @@ let CTPM = {
       this.windowListener.removeUI(enumerator.getNext());
     }
 
+    Components.utils.unload("chrome://ctpm-modules/content/export.js");
+    Components.utils.unload("chrome://ctpm-modules/content/generator.js");
+    Components.utils.unload("chrome://ctpm-modules/content/about.js");
+    Components.utils.unload("chrome://ctpm-modules/content/permissions.js");
     Components.utils.unload("chrome://ctpm-modules/content/common.js");
+    Components.utils.unload("chrome://ctpm-modules/content/log4moz.js");
   },
 
   windowListener :
     {
       _logger : null,
+
+      _openDialogFunction : null,
 
       /**
        * Adds the menu items used to open the RXM window, and the about: page
@@ -75,6 +82,23 @@ let CTPM = {
        */
       addUI : function(aWindow) {
         this._logger.debug("addUI");
+
+        this._openDialogFunction =
+          function () {
+            let win =
+              Services.wm.
+                getMostRecentWindow("ctpmanager-manager-dialog");
+
+            // check if a window is already open.
+            if ((null != win) && !win.closed) {
+              win.focus();
+            } else {
+              aWindow.openDialog(
+                "chrome://ctpmanager/content/ctpManager.xul",
+                "ctpmanager-manager-dialog",
+                "chrome,titlebar,centerscreen,dialog,resizable");
+            }
+          };
 
         // full Firefox menu
         this.tryToAddMenuItemAt(aWindow, "menu_ToolsPopup");
@@ -112,23 +136,7 @@ let CTPM = {
             "accesskey",
             XFPerms.stringBundle.GetStringFromName("ctpm.menu.accesskey"));
 
-          menuitem.addEventListener(
-            "command",
-            function () {
-              let win =
-                Services.wm.
-                  getMostRecentWindow("ctpmanager-manager-dialog");
-
-              // check if a window is already open.
-              if ((null != win) && !win.closed) {
-                win.focus();
-              } else {
-                aWindow.openDialog(
-                  "chrome://ctpmanager/content/ctpManager.xul",
-                  "ctpmanager-manager-dialog",
-                  "chrome,titlebar,centerscreen,dialog,resizable");
-              }
-            });
+          menuitem.addEventListener("command", this._openDialogFunction);
 
           switch (aParentId) {
             case "menu_ToolsPopup":
@@ -177,6 +185,7 @@ let CTPM = {
         let menuitem = doc.getElementById("ctpm-menu-" + aId);
 
         if (null != menuitem) {
+          menuitem.removeEventListener("command", this._openDialogFunction);
           menuitem.parentNode.removeChild(menuitem);
         }
       },

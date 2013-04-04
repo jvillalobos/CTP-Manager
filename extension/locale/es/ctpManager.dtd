@@ -29,6 +29,11 @@
 
 <!ENTITY ctpmanager.allowed.label       "Dominios con permiso de Click-to-Play:">
 <!ENTITY ctpmanager.add.label           "Agregar...">
+<!ENTITY ctpmanager.add2.label          "Agregar">
 <!ENTITY ctpmanager.add.accesskey       "A">
 <!ENTITY ctpmanager.remove.label        "Remover">
 <!ENTITY ctpmanager.remove.accesskey    "R">
+
+<!ENTITY ctpmanager.addPermission.title   "Agregar Permiso">
+<!ENTITY ctpmanager.domain.label          "Dominio (por ejemplo &quot;www.mozilla.com&quot;):">
+<!ENTITY ctpmanager.plugins.label         "Plugins:">

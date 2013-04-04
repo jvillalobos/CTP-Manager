@@ -32,8 +32,8 @@ var CTPMInstaller = {
   PERMISSION_NAME : "plugins",
   ALLOW : 1,
 
-  // The list of domains to include on the whitelist.
-  DOMAINS : [ $(DOMAINS) ],
+  // The list of permissions to include on the whitelist.
+  PERMISSIONS : [ $(PERMISSIONS) ],
   // Title for dialogs and optional, localized version of the message.
   TITLE : "Click-to-Play Manager",
   TITLE_LOCALIZED : "$(TITLE)",
@@ -78,14 +78,14 @@ var CTPMInstaller = {
    */
   run : function() {
     try {
-      let domainCount = this.DOMAINS.length;
+      let domainCount = this.PERMISSIONS.length;
       let hasLocalFiles = false;
       let domain;
 
       if ((0 < domainCount) && this._showWarningMessage()) {
         // read all data.
         for (let i = 0 ; i < domainCount ; i++) {
-          domain = this.DOMAINS[i];
+          domain = this.PERMISSIONS[i];
 
           if ("string" == typeof(domain) && (0 < domain.length)) {
             this._add(domain);
@@ -137,12 +137,12 @@ var CTPMInstaller = {
     let content =
       ((0 < this.WARNING_LOCALIZED.length) ? this.WARNING_LOCALIZED :
        this.WARNING);
-    let domainCount = this.DOMAINS.length;
+    let domainCount = this.PERMISSIONS.length;
 
     content += "\n";
 
     for (let i = 0 ; i < domainCount ; i++) {
-      content += "\n" + this.DOMAINS[i];
+      content += "\n" + this.PERMISSIONS[i];
     }
 
     return Services.prompt.confirm(null, title, content);

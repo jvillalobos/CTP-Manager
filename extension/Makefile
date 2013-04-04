@@ -21,7 +21,7 @@ extension_name := click-to-play-manager
 extension_uuid := click-to-play-manager@xulforge.com
 
 # The name of the profile dir where the extension can be installed.
-profile_dir := click-to-play-manager-dev
+profile_dir := ctpm
 
 # The directory where the template files are located (soft link).
 templates_dir := content/templates
