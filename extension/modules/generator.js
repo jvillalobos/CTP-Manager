@@ -191,10 +191,7 @@ XFPerms.Generator = {
         permsString += ",";
       }
 
-      permsString +=
-        "{ domain : \"" + aPermissions[i].domain + "\", plugin : " +
-        ((null != aPermissions[i].plugin) ?
-         ("\"" + aPermissions[i].plugin + "\"") : "null") + " }";
+      permsString += JSON.stringify(aPermissions[i]);
     }
 
     return permsString;

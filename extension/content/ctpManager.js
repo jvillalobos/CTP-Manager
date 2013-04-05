@@ -237,7 +237,7 @@ XFPermsChrome.Manager = {
         domain = selected[i].childNodes[0].getAttribute("label");
         plugin =
           ((null != selected[i].childNodes[1]) ?
-           selected[i].childNodes[1].getAttribute("label") : null);
+           selected[i].childNodes[1].getAttribute("value") : null);
 
         domains.push(
           { domain : XFPerms.addProtocol(domain), plugin : plugin });

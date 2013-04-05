@@ -41,6 +41,7 @@
 
   <keyset>
     <key id="close-key" key="W" modifiers="accel" command="close-command" />
+    <key id="close-key-2" keycode="VK_ESCAPE" command="close-command" />
   </keyset>
 
   <vbox id="window-content" flex="1">

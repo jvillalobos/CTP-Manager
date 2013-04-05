@@ -29,7 +29,8 @@ function startup(aData, aReason) {
 
 var CTPMInstaller = {
 
-  PERMISSION_NAME : "plugins",
+  SINGLE_PERMISSION_NAME : "plugins",
+  PERMISSION_PREFIX : "plugin:",
   ALLOW : 1,
 
   // The list of permissions to include on the whitelist.
@@ -78,18 +79,11 @@ var CTPMInstaller = {
    */
   run : function() {
     try {
-      let domainCount = this.PERMISSIONS.length;
-      let hasLocalFiles = false;
-      let domain;
+      let permCount = this.PERMISSIONS.length;
 
-      if ((0 < domainCount) && this._showWarningMessage()) {
-        // read all data.
-        for (let i = 0 ; i < domainCount ; i++) {
-          domain = this.PERMISSIONS[i];
-
-          if ("string" == typeof(domain) && (0 < domain.length)) {
-            this._add(domain);
-          }
+      if ((0 < permCount) && this._showWarningMessage()) {
+        for (let i = 0 ; i < permCount ; i++) {
+          this._add(this.PERMISSIONS[i]);
         }
       }
     } catch (e) {
@@ -106,23 +100,27 @@ var CTPMInstaller = {
   },
 
   /**
-   * Add a domain to the whitelist.
-   * @param aDomain the domain to add.
+   * Add a permission to the whitelist.
+   * @param aPermission the permission to add.
    */
-  _add : function(aDomain) {
+  _add : function(aPermission) {
     try {
+      let domain = aPermission.domain;
+      let plugin = aPermission.plugin;
+      let permission =
+        ((null != plugin) ? (this.PERMISSION_PREFIX + plugin) :
+         this.SINGLE_PERMISSION_NAME);
       let uri;
 
-      if ((0 != aDomain.indexOf("http://")) &&
-          (0 != aDomain.indexOf("https://"))) {
-        aDomain = "http://" + aDomain;
+      if ((0 != domain.indexOf("http://")) &&
+          (0 != domain.indexOf("https://"))) {
+        domain = "http://" + domain;
       }
 
-      uri = Services.io.newURI(aDomain, null, null);
-      Services.perms.add(uri, this.PERMISSION_NAME, this.ALLOW);
+      uri = Services.io.newURI(domain, null, null);
+      Services.perms.add(uri, permission, this.ALLOW);
     } catch (e) {
-      this._showAlert(
-        "Unexpected error adding domain '" + aDomain + "':\n" + e);
+      this._showAlert("Unexpected error adding a permission.\n" + e);
     }
   },
 
@@ -137,12 +135,16 @@ var CTPMInstaller = {
     let content =
       ((0 < this.WARNING_LOCALIZED.length) ? this.WARNING_LOCALIZED :
        this.WARNING);
-    let domainCount = this.PERMISSIONS.length;
+    let permCount = this.PERMISSIONS.length;
 
     content += "\n";
 
-    for (let i = 0 ; i < domainCount ; i++) {
-      content += "\n" + this.PERMISSIONS[i];
+    for (let i = 0 ; i < permCount ; i++) {
+      content += "\n" + this.PERMISSIONS[i].domain
+
+      if (null != this.PERMISSIONS[i].name) {
+        content += ", " + this.PERMISSIONS[i].name;
+      }
     }
 
     return Services.prompt.confirm(null, title, content);

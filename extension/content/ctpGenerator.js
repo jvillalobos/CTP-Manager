@@ -51,8 +51,6 @@ XFPermsChrome.Generator = {
    * Uninitializes the object.
    */
   uninit : function() {
-    Components.utils.unload("chrome://ctpm-modules/content/generator.js");
-    Components.utils.unload("chrome://ctpm-modules/content/common.js");
   },
 
   /**
@@ -62,16 +60,58 @@ XFPermsChrome.Generator = {
     this._logger.trace("_loadPermissions");
 
     try {
-      let domains = document.getElementById("domains");
+      let permissions = document.getElementById("domains");
       let allowed = XFPerms.Permissions.getAll();
       let allowedCount = allowed.length;
       let item;
+      let cell1;
+      let cell2;
+
+      // clear the current list.
+      while (null != permissions.firstChild) {
+        permissions.removeChild(permissions.firstChild);
+      }
+
+      if (!XFPerms.Permissions.isSinglePermission()) {
+        let head = document.createElement("listhead");
+        let header1 = document.createElement("listheader");
+        let header2 = document.createElement("listheader");
+
+        header1.setAttribute(
+          "label", XFPerms.stringBundle.GetStringFromName("ctpm.domain.label"));
+        header2.setAttribute(
+          "label", XFPerms.stringBundle.GetStringFromName("ctpm.plugin.label"));
+
+        head.appendChild(header1);
+        head.appendChild(header2);
+        permissions.appendChild(head);
+      }
 
       for (let i = 0; i < allowedCount; i++) {
-        item = document.createElement("listitem");
-        item.setAttribute("label", allowed[i]);
-        item.setAttribute("value", allowed[i]);
-        domains.appendChild(item);
+        if (!XFPerms.Permissions.isSinglePermission() &&
+            (null != allowed[i].plugin)) {
+          item = document.createElement("listitem");
+
+          // Firefox 20 and above, 2 columns.
+          cell1 = document.createElement("listcell");
+          cell1.setAttribute("label", allowed[i].domain);
+          item.appendChild(cell1);
+
+          cell2 = document.createElement("listcell");
+          cell2.setAttribute("label", allowed[i].name);
+          cell2.setAttribute("value", allowed[i].plugin);
+          item.appendChild(cell2);
+          permissions.appendChild(item);
+        } else if (XFPerms.Permissions.isSinglePermission() &&
+                   (null == allowed[i].plugin)) {
+          item = document.createElement("listitem");
+
+          // Firefox 19 and lower, 1 column.
+          cell1 = document.createElement("listcell");
+          cell1.setAttribute("label", allowed[i].domain);
+          item.appendChild(cell1);
+          permissions.appendChild(item);
+        }
       }
     } catch (e) {
       this._logger.error("_loadPermissions\n" + e);
@@ -102,17 +142,28 @@ XFPermsChrome.Generator = {
 
     let selected = document.getElementById("domains").selectedItems;
     let count = selected.length;
-    let domains = [];
+    let permissions = [];
+    let item;
 
     try {
       for (let i = 0; i < count; i ++) {
-        domains.push(selected[i].getAttribute("value"));
+        item = selected[i];
+        domain = item.childNodes[0].getAttribute("label");
+        plugin = null;
+        name = null;
+
+        if (null != item.childNodes[1]) {
+          plugin = item.childNodes[1].getAttribute("value");
+          name = item.childNodes[1].getAttribute("label");
+        }
+
+        permissions.push({ domain : domain, plugin : plugin, name : name });
       }
     } catch (e) {
       this._logger.error("generateInstaller\n" + e);
     }
 
-    if (0 < domains.length) {
+    if (0 < permissions.length) {
       try {
         let fp =
           Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
@@ -137,7 +188,8 @@ XFPermsChrome.Generator = {
             document.getElementById("warning").value.trim().
               replace(/\n/g, "\\n");
 
-          XFPerms.Generator.generateInstaller(fp.file, domains, title, warning);
+          XFPerms.Generator.generateInstaller(
+            fp.file, permissions, title, warning);
           XFPerms.runWithDelay(function() { window.close(); }, 0);
         }
       } catch (e) {
@@ -152,7 +204,7 @@ XFPermsChrome.Generator = {
     } else {
       // how did we get here???
       this._logger.error(
-        "generateInstaller. Tried to generate installer with no domains " +
+        "generateInstaller. Tried to generate installer with no permissions " +
         "selected.");
     }
   }
