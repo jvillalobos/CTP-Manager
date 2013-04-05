@@ -82,7 +82,7 @@ xpi_built := install.rdf \
              $(wildcard modules/*.js) \
              $(wildcard components/*.js) \
              $(template_files) \
-#             icon.png \
+             icon.png \
 #             icon64.png
 
 $(xpi_file): $(xpi_built)
