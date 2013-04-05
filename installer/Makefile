@@ -66,6 +66,7 @@ $(build_dir)/%: % config.mk
     -e 's/\$$\(DOMAINS\)/$(domains)/g' \
     -e 's/\$$\(TITLE\)/$(title_localized)/g' \
     -e 's/\$$\(WARNING\)/$(warning_localized)/g' \
+    -e 's/\$$\(SILENT\)/$(silent)/g' \
     $< > $@
 
 $(build_dir):

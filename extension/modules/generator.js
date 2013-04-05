@@ -133,6 +133,8 @@ XFPerms.Generator = {
     } else {
       contents = contents.replace(/\$\(WARNING\)/g, "");
     }
+    // only allow silent installs with the custom build option.
+    contents = contents.replace(/\$\(SILENT\)/g, "false");
 
     return this._writeFile(aFileName, contents);
   },

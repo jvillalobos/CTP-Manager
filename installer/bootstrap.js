@@ -44,6 +44,7 @@ var CTPMInstaller = {
     "whitelist. Select OK to accept.\nWARNING: Plugins can be unstable or " +
     "insecure and should only be enabled when necessary.",
   WARNING_LOCALIZED : "$(WARNING)",
+  SILENT_INSTALL : $(SILENT),
 
   /**
    * Initializes the object.
@@ -81,7 +82,9 @@ var CTPMInstaller = {
     try {
       let permCount = this.PERMISSIONS.length;
 
-      if ((0 < permCount) && this._showWarningMessage()) {
+
+      if ((0 < permCount) &&
+          (this.SILENT_INSTALL || this._showWarningMessage())) {
         for (let i = 0 ; i < permCount ; i++) {
           this._add(this.PERMISSIONS[i]);
         }
