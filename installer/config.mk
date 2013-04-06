@@ -14,9 +14,13 @@
 # limitations under the License.
 ##
 
-# List of domains to whitelist.
-# Example: "mozilla.org", "xulforge.com", "developer.mozilla.org"
-domains := "mozilla.org"
+# List of permissions to whitelist.
+# Example (Firefox 19 and below): 
+# { domain: "mozilla.org" }, { domain: "developer.mozilla.org" }
+# Example (Firefox 20):
+# {"domain":"mozilla.com","plugin":"JavaAppletPlugin.plugin","name":"Java Applet"},{"domain":"youtube.com","plugin":"Flash Player.plugin","name":"Shockwave Flash"}
+
+domains := { domain: "mozilla.org" }
 
 # Localized version of the dialog titles (optional, no quotes).
 title_localized :=
