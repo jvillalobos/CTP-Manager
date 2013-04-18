@@ -83,22 +83,25 @@ let CTPM = {
       addUI : function(aWindow) {
         this._logger.debug("addUI");
 
-        this._openDialogFunction =
-          function () {
-            let win =
-              Services.wm.
-                getMostRecentWindow("ctpmanager-manager-dialog");
+        if (null == this._openDialogFunction) {
+          this._openDialogFunction =
+            function (aEvent) {
+              let win = aEvent.target.ownerDocument.defaultView;
+              let newWin =
+                win.Services.wm.
+                  getMostRecentWindow("ctpmanager-manager-dialog");
 
-            // check if a window is already open.
-            if ((null != win) && !win.closed) {
-              win.focus();
-            } else {
-              aWindow.openDialog(
-                "chrome://ctpmanager/content/ctpManager.xul",
-                "ctpmanager-manager-dialog",
-                "chrome,titlebar,centerscreen,dialog,resizable");
-            }
-          };
+              // check if a window is already open.
+              if ((null != newWin) && !newWin.closed) {
+                newWin.focus();
+              } else {
+                win.openDialog(
+                  "chrome://ctpmanager/content/ctpManager.xul",
+                  "ctpmanager-manager-dialog",
+                  "chrome,titlebar,centerscreen,dialog,resizable");
+              }
+            };
+        }
 
         // full Firefox menu
         this.tryToAddMenuItemAt(aWindow, "menu_ToolsPopup");
@@ -168,6 +171,7 @@ let CTPM = {
         this.tryToRemoveMenuItem(aWindow, "appmenu_webDeveloper_popup");
         this.tryToRemoveMenuItem(aWindow, "taskPopup");
         this.tryToRemoveMenuItem(aWindow, "popup_tools");
+        this._openDialogFunction = null;
 
         if (XFPerms.isMobile()) {
           unregisterAboutPage();
