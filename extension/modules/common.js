@@ -23,7 +23,7 @@ const FIREFOX_MOBILE_ID = "{a23983c0-fd0e-11dc-95ff-0800200c9a66}";
 const FIREFOX_ANDROID_ID = "{aa3c5121-dab2-40e2-81ca-7ea25febc110}";
 
 Components.utils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("chrome://ctpm-modules/content/log4moz.js");
+Components.utils.import("resource://gre/modules/services-common/log4moz.js");
 
 /**
  * XFPerms namespace.
@@ -41,8 +41,9 @@ if ("undefined" == typeof(XFPerms)) {
       // The basic formatter will output lines like:
       // DATE/TIME  LoggerName LEVEL  (log message)
       let formatter = new Log4Moz.BasicFormatter();
-      let root = Log4Moz.repository.rootLogger;
       let appender;
+
+      this._logger = Log4Moz.repository.getLogger("XFPerms");
 
       if (!this.isMobile()) {
         let logFile = this.getDirectory();
@@ -54,12 +55,9 @@ if ("undefined" == typeof(XFPerms)) {
         appender = new Log4Moz.ConsoleAppender(formatter);
       }
 
-      root.level = Log4Moz.Level["All"];
+      this._logger.level = Log4Moz.Level["All"];
       appender.level = Log4Moz.Level["Warn"]; // change this to adjust level.
-      root.addAppender(appender);
-
-      // get a Logger specifically for this object.
-      this._logger = this.getLogger("XFPerms");
+      this._logger.addAppender(appender);
 
       this.stringBundle =
         Services.strings.createBundle(
@@ -67,7 +65,7 @@ if ("undefined" == typeof(XFPerms)) {
     },
 
     /**
-     * Creates a logger repository from Log4Moz.
+     * Creates a logger for other objects to use.
      * @param aName the name of the logger to create.
      * @param aLevel (optional) the logger level.
      * @return the created logger.
@@ -76,6 +74,7 @@ if ("undefined" == typeof(XFPerms)) {
       let logger = Log4Moz.repository.getLogger(aName);
 
       logger.level = Log4Moz.Level[(aLevel ? aLevel : "All")];
+      logger.parent = this._logger;
 
       return logger;
     },

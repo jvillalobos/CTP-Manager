@@ -67,7 +67,6 @@ let CTPM = {
     Components.utils.unload("chrome://ctpm-modules/content/about.js");
     Components.utils.unload("chrome://ctpm-modules/content/permissions.js");
     Components.utils.unload("chrome://ctpm-modules/content/common.js");
-    Components.utils.unload("chrome://ctpm-modules/content/log4moz.js");
   },
 
   windowListener :
