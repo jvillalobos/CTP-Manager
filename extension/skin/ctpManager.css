@@ -40,6 +40,10 @@
   margin-bottom: 1em;
 }
 
+#null-entries {
+  margin-left: 0.7em;
+}
+
 .default-text {
   font-weight: bold;
 }

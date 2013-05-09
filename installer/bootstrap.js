@@ -40,7 +40,7 @@ var CTPMInstaller = {
   TITLE_LOCALIZED : "$(TITLE)",
   // Installation warning and optional, localized version of the message.
   WARNING :
-    "The following list of domains will be added to your Click-to-Play " +
+    "The following list of permissions will be added to your Click-to-Play " +
     "whitelist. Select OK to accept.\nWARNING: Plugins can be unstable or " +
     "insecure and should only be enabled when necessary.",
   WARNING_LOCALIZED : "$(WARNING)",

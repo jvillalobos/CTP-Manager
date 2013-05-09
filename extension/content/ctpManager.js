@@ -62,6 +62,7 @@ XFPermsChrome.Manager = {
       let generateItem = document.getElementById("generate-menuitem");
       let allowed = XFPerms.Permissions.getAll();
       let allowedCount = allowed.length;
+      let foundNulls = false;
       let item;
       let cell1;
       let cell2;
@@ -91,6 +92,10 @@ XFPermsChrome.Manager = {
             (null != allowed[i].plugin)) {
           item = document.createElement("listitem");
 
+          if (null == allowed[i].name) {
+            foundNulls = true;
+          }
+
           // Firefox 20 and above, 2 columns.
           cell1 = document.createElement("listcell");
           cell1.setAttribute("label", allowed[i].domain);
@@ -112,6 +117,9 @@ XFPermsChrome.Manager = {
           permissions.appendChild(item);
         }
       }
+
+      // display a message explaining what the null entries are.
+      document.getElementById("null-entries").hidden = !foundNulls;
 
       // null in the about: window.
       if (null != generateItem) {

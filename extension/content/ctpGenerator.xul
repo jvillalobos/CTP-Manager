@@ -83,8 +83,8 @@
               <label class="default-text"
                 value="&ctpmanager.default.label;" />
               <description>
-                The following list of domains will be added to your click-to-play
-                whitelist. Select OK to accept.
+                The following list of permissions will be added to your
+                Click-to-Play whitelist. Select OK to accept.
               </description>
               <description>
                 WARNING: Plugins can be insecure and unstable, and should only

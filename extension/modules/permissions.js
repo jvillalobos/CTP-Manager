@@ -150,7 +150,7 @@ XFPerms.Permissions = {
     for (let tag of tags) {
       plugins.push(
         { name : this._makeNicePluginName(tag.name),
-          permission : tag.filename });
+          permission : this._getPluginPermissionFromTag(tag) });
     }
 
     return plugins;
@@ -174,7 +174,7 @@ XFPerms.Permissions = {
 
   /**
    * Gets the 'nice' plugin name from the given permission string.
-   * @param aFileName the permission string of the plugin.
+   * @param aPermission the permission string of the plugin.
    * @return the 'nice' plugin name that corresponds to the given permission.
    */
   _getPluginNameByPermission : function(aPermission) {
@@ -184,7 +184,7 @@ XFPerms.Permissions = {
     let name = null;
 
     for (let tag of tags) {
-      if (aPermission == tag.filename) {
+      if (aPermission == this._getPluginPermissionFromTag(tag)) {
         name = this._makeNicePluginName(tag.name);
         break;
       }
@@ -207,6 +207,85 @@ XFPerms.Permissions = {
         replace(/\bplug-?in\b/i, "").trim();
 
     return newName;
+  },
+
+  /**
+   * Gets the plugin permission string from the tag object. In Firefox 20, this
+   * is the plugin filename. In 21 an above, the file extension is removed and
+   * Flash and Java are special-cased.
+   * @param aTag the tag object with the plugin information.
+   * @return permission string that corresponds to the plugin in the tag.
+   */
+  _getPluginPermissionFromTag : function(aTag) {
+    this._logger.trace("_getPluginPermissionFromTag");
+
+    let permission = null;
+    let majorVersion = Services.appinfo.platformVersion.split(".")[0];
+
+    if (21 <= majorVersion) {
+      let mimeTypes = aTag.getMimeTypes();
+
+      if (this._isFlashPlugin(mimeTypes)) {
+        permission = "flash";
+      } else if (this._isJavaPlugin(mimeTypes)) {
+        permission = "java";
+      } else {
+        let lastPeriod = aTag.filename.lastIndexOf(".");
+
+        permission =
+          ((0 < lastPeriod) ? aTag.filename.substring(0, lastPeriod) :
+           aTag.filename);
+      }
+    } else {
+      permission = aTag.filename;
+    }
+
+    return permission;
+  },
+
+  /**
+   * Checks if the tag object corresponds to the Java plugin.
+   * @param aMimeTypes the list of MIME types for the plugin.
+   * @return true if the tag corresponds to the Java plugin.
+   */
+  _isJavaPlugin : function(aMimeTypes) {
+    this._logger.trace("_isJavaPlugin");
+
+    let isJava = false;
+    let mimeType;
+
+    for (let i = 0; i < aMimeTypes.length; i++) {
+      mimeType = aMimeTypes[i].type;
+
+      if ((0 == mimeType.indexOf("application/x-java-vm")) ||
+          (0 == mimeType.indexOf("application/x-java-applet")) ||
+          (0 == mimeType.indexOf("application/x-java-bean"))) {
+        isJava = true;
+        break;
+      }
+    }
+
+    return isJava;
+  },
+
+  /**
+   * Checks if the tag object corresponds to the Flash plugin.
+   * @param aMimeTypes the list of MIME types for the plugin.
+   * @return true if the tag corresponds to the Flash plugin.
+   */
+  _isFlashPlugin : function(aMimeTypes) {
+    this._logger.trace("_isFlashPlugin");
+
+    let isFlash = false;
+
+    for (let i = 0; i < aMimeTypes.length; i++) {
+      if (0 == aMimeTypes[i].type.indexOf("application/x-shockwave-flash")) {
+        isFlash = true;
+        break;
+      }
+    }
+
+    return isFlash;
   },
 
   /**

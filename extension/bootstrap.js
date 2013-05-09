@@ -142,19 +142,20 @@ let CTPM = {
 
           switch (aParentId) {
             case "menu_ToolsPopup":
-              parent.insertBefore(
-                menuitem, doc.getElementById("sanitizeSeparator"));
+              this._addMenuItem(
+                parent, menuitem, doc.getElementById("sanitizeSeparator"));
               break;
             case "appmenu_webDeveloper_popup":
-              parent.insertBefore(
-                menuitem, doc.getElementById("appmenu_devToolsEndSeparator"));
+              this._addMenuItem(
+                parent, menuitem,
+                doc.getElementById("appmenu_devToolsEndSeparator"));
               break;
             case "taskPopup":
-              parent.insertBefore(
-                menuitem, doc.getElementById("sync-setup"));
+              this._addMenuItem(
+                parent, menuitem, doc.getElementById("sync-setup"));
               break;
             default:
-              parent.appendChild(menuitem);
+              this._addMenuItem(parent, menuitem);
               break;
           }
         }
@@ -193,6 +194,27 @@ let CTPM = {
         }
       },
 
+      /**
+       * Tries to insert the menuitem under the parent and before the reference
+       * node. If the reference node doesn't exist or isn't a child of the
+       * parent, the menuitem is appended at the end.
+       * @param aParent the parent node to insert the menuitem in.
+       * @param aMenuItem the menuitem to insert.
+       * @param aRerefence the reference node to insert the node before. Can be
+       * null.
+       */
+      _addMenuItem : function(aParent, aMenuItem, aReference) {
+        this._logger.trace("_addMenuItem");
+
+        this._logger.debug("_addMenuItem. Reference: " + aReference);
+
+        if ((null != aReference) && (aParent == aReference.parentNode)) {
+          aParent.insertBefore(aMenuItem, aReference);
+        } else {
+          aParent.appendChild(aMenuItem);
+        }
+      },
+
       onOpenWindow : function(xulWindow) {
         this._logger.debug("onOpenWindow");
 
@@ -214,6 +236,7 @@ let CTPM = {
             }
         }, false);
       },
+
       onCloseWindow : function(xulwindow) {},
       onWindowTitleChange: function(xulWindow, newTitle) {}
     }

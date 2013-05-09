@@ -20,7 +20,13 @@
 <?xml-stylesheet type="text/css"
   href="chrome://ctpmanager/skin/ctpManager.css" ?>
 
-<!DOCTYPE window SYSTEM "chrome://ctpmanager/locale/ctpManager.dtd">
+
+<!DOCTYPE window [
+  <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+  %brandDTD;
+  <!ENTITY % ctpManagerDTD SYSTEM "chrome://ctpmanager/locale/ctpManager.dtd">
+  %ctpManagerDTD;
+]>
 
 <window id="ctpmanager-manager-dialog"
   windowtype="ctpmanager-manager-dialog"
@@ -68,6 +74,8 @@
     <label control="domains" value="&ctpmanager.allowed.label;" />
     <listbox id="domains" rows="15" seltype="multiple" flex="1"
       onselect="XFPermsChrome.Manager.select(event);" />
+    <description id="null-entries" hidden="true">&ctpmanager.nullEntries.label;
+    </description>
     <hbox id="button-container">
       <button id="add" label="&ctpmanager.add.label;"
         accesskey="&ctpmanager.add.accesskey;"
