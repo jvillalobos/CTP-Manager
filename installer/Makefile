@@ -63,7 +63,7 @@ $(xpi_file): $(build_dir) $(xpi_built)
 $(build_dir)/%: % config.mk
 	@sed -E \
     -e 's/\$$\(ID\)/$(id)/g' \
-    -e 's/\$$\(DOMAINS\)/$(domains)/g' \
+    -e 's/\$$\(PERMISSIONS\)/$(permissions)/g' \
     -e 's/\$$\(TITLE\)/$(title_localized)/g' \
     -e 's/\$$\(WARNING\)/$(warning_localized)/g' \
     -e 's/\$$\(SILENT\)/$(silent)/g' \

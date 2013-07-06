@@ -255,7 +255,8 @@ XFPerms.Permissions = {
     let mimeType;
 
     for (let i = 0; i < aMimeTypes.length; i++) {
-      mimeType = aMimeTypes[i].type;
+      mimeType =
+        ((null != aMimeTypes[i].type) ? aMimeTypes[i].type : aMimeTypes[i]);
 
       if ((0 == mimeType.indexOf("application/x-java-vm")) ||
           (0 == mimeType.indexOf("application/x-java-applet")) ||
@@ -277,9 +278,13 @@ XFPerms.Permissions = {
     this._logger.trace("_isFlashPlugin");
 
     let isFlash = false;
+    let mimeType;
 
     for (let i = 0; i < aMimeTypes.length; i++) {
-      if (0 == aMimeTypes[i].type.indexOf("application/x-shockwave-flash")) {
+      mimeType =
+        ((null != aMimeTypes[i].type) ? aMimeTypes[i].type : aMimeTypes[i]);
+
+      if (0 == mimeType.indexOf("application/x-shockwave-flash")) {
         isFlash = true;
         break;
       }

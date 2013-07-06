@@ -175,7 +175,7 @@ let CTPM = {
 
         if (XFPerms.isMobile()) {
           unregisterAboutPage();
-          Components.utils.unload("chrome://ctpm-modules/content/ctpAbout.js");
+          Components.utils.unload("chrome://ctpm-modules/content/about.js");
         }
       },
 
@@ -205,8 +205,6 @@ let CTPM = {
        */
       _addMenuItem : function(aParent, aMenuItem, aReference) {
         this._logger.trace("_addMenuItem");
-
-        this._logger.debug("_addMenuItem. Reference: " + aReference);
 
         if ((null != aReference) && (aParent == aReference.parentNode)) {
           aParent.insertBefore(aMenuItem, aReference);
