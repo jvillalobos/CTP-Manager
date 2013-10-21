@@ -91,11 +91,11 @@ XFPerms.Permissions = {
 
       if (null == aPlugin) {
         Services.perms.add(uri, SINGLE_PERMISSION_NAME, ALLOW);
-      }
-      else {
+      } else {
         Services.perms.add(uri, PERMISSION_PREFIX + aPlugin, ALLOW);
         Services.perms.add(uri, INSECURE_PERMISSION_PREFIX + aPlugin, ALLOW);
       }
+
       success = true;
     } catch (e) {
       this._logger.error("add\n" + e);
@@ -117,12 +117,12 @@ XFPerms.Permissions = {
 
     try {
       if (null == aPlugin) {
-	Services.perms.remove(aDomain, SINGLE_PERMISSION_NAME);
+        Services.perms.remove(aDomain, SINGLE_PERMISSION_NAME);
+      } else {
+        Services.perms.remove(aDomain, PERMISSION_PREFIX + aPlugin);
+        Services.perms.remove(aDomain, INSECURE_PERMISSION_PREFIX + aPlugin);
       }
-      else {
-	Services.perms.remove(aDomain, PERMISSION_PREFIX + aPlugin);
-	Services.perms.remove(aDomain, INSECURE_PERMISSION_PREFIX + aPlugin);
-      }
+
       success = true;
     } catch (e) {
       this._logger.error("remove\n" + e);

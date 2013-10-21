@@ -31,7 +31,7 @@ var CTPMInstaller = {
 
   SINGLE_PERMISSION_NAME : "plugins",
   PERMISSION_PREFIX : "plugin:",
-  INSECURE_PERMISSION_PREFIX = "plugin-vulnerable:";
+  INSECURE_PERMISSION_PREFIX : "plugin-vulnerable:",
   ALLOW : 1,
 
   // The list of permissions to include on the whitelist.
@@ -119,12 +119,13 @@ var CTPMInstaller = {
       }
 
       uri = Services.io.newURI(domain, null, null);
+
       if (null == plugin) {
-	Services.perms.add(uri, this.SINGLE_PERMISSION_NAME, this.ALLOW);
-      }
-      else {
+        Services.perms.add(uri, this.SINGLE_PERMISSION_NAME, this.ALLOW);
+      } else {
         Services.perms.add(uri, this.PERMISSION_PREFIX + plugin, this.ALLOW);
-        Services.perms.add(uri, this.INSECURE_PERMISSION_PREFIX + plugin, this.ALLOW);
+        Services.perms.add(
+          uri, this.INSECURE_PERMISSION_PREFIX + plugin, this.ALLOW);
       }
     } catch (e) {
       this._showAlert("Unexpected error adding a permission.\n" + e);
