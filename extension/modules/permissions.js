@@ -20,7 +20,8 @@ const Cc = Components.classes;
 const Ci = Components.interfaces;
 
 const SINGLE_PERMISSION_NAME = "plugins";
-const PERMISSION_PREFIX = "plugin:"
+const PERMISSION_PREFIX = "plugin:";
+const INSECURE_PERMISSION_PREFIX = "plugin-vulnerable:";
 const ALLOW = 1;
 
 Components.utils.import("resource://gre/modules/Services.jsm");
@@ -87,11 +88,14 @@ XFPerms.Permissions = {
 
     try {
       let uri = this._getURI(aDomain);
-      let permission =
-        ((null != aPlugin) ? (PERMISSION_PREFIX + aPlugin) :
-         SINGLE_PERMISSION_NAME);
 
-      Services.perms.add(uri, permission, ALLOW);
+      if (null == aPlugin) {
+        Services.perms.add(uri, SINGLE_PERMISSION_NAME, ALLOW);
+      }
+      else {
+        Services.perms.add(uri, PERMISSION_PREFIX + aPlugin, ALLOW);
+        Services.perms.add(uri, INSECURE_PERMISSION_PREFIX + aPlugin, ALLOW);
+      }
       success = true;
     } catch (e) {
       this._logger.error("add\n" + e);
@@ -110,12 +114,15 @@ XFPerms.Permissions = {
     this._logger.debug("remove: Domain: " + aDomain + ", plugin: " + aPlugin);
 
     let success = false;
-    let permission =
-      ((null != aPlugin) ? (PERMISSION_PREFIX + aPlugin) :
-       SINGLE_PERMISSION_NAME);
 
     try {
-      Services.perms.remove(aDomain, permission);
+      if (null == aPlugin) {
+	Services.perms.remove(aDomain, SINGLE_PERMISSION_NAME);
+      }
+      else {
+	Services.perms.remove(aDomain, PERMISSION_PREFIX + aPlugin);
+	Services.perms.remove(aDomain, INSECURE_PERMISSION_PREFIX + aPlugin);
+      }
       success = true;
     } catch (e) {
       this._logger.error("remove\n" + e);
