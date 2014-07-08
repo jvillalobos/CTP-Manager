@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Jorge Villalobos
+ * Copyright 2014 Jorge Villalobos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -242,7 +242,7 @@ XFPerms.Permissions = {
         permission =
           ((0 < lastPeriod) ? aTag.filename.substring(0, lastPeriod) :
            aTag.filename);
-        // Remove digits at the end
+        // remove digits at the end.
         permission = permission.replace(/[0-9]+$/, "");
       }
     } else {
