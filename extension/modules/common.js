@@ -80,7 +80,7 @@ if ("undefined" == typeof(XFPerms)) {
 
       this.stringBundle =
         Services.strings.createBundle(
-          "chrome://ctpmanager/locale/rxm.properties");
+          "chrome://ctpmanager/locale/ctpm.properties");
     },
 
     /**

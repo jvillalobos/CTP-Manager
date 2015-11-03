@@ -35,7 +35,7 @@
 <!ENTITY ctpmanager.remove.accesskey    "R">
 
 <!ENTITY ctpmanager.addPermission.title   "Agregar Permiso">
-<!ENTITY ctpmanager.domain.label          "Dominio (por ejemplo &quot;www.mozilla.com&quot;):">
+<!ENTITY ctpmanager.domain.label          "Dominio (por ejemplo &quot;https://www.mozilla.com&quot;):">
 <!ENTITY ctpmanager.plugins.label         "Plugins:">
 
 <!ENTITY ctpmanager.nullEntries.label   "Nota: las entradas con un valor de 'null' no son válidas para esta versión de &brandShortName;.">
