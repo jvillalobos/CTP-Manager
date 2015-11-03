@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Jorge Villalobos
+ * Copyright 2015 Jorge Villalobos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ const FIREFOX_ANDROID_ID = "{aa3c5121-dab2-40e2-81ca-7ea25febc110}";
 var logLoaded = true;
 
 try {
-  Components.utils.import("resource://gre/modules/services-common/log4moz.js");
+  Components.utils.import("resource://gre/modules/Log.jsm");
+  var Log4Moz = Log;
 } catch (e) {
-  // certain Mozilla-based applications don't have /services-common/, so let's
-  // just skip logging there.
+  // if we can't find the logger, don't log anything.
   logLoaded = false;
 }
 
@@ -75,12 +75,12 @@ if ("undefined" == typeof(XFPerms)) {
       } else {
         this._logger =
           { error : function() {}, warn : function() {}, debug : function() {},
-            trace : function() {} };
+            trace : function() {}, info : function() {} };
       }
 
       this.stringBundle =
         Services.strings.createBundle(
-          "chrome://ctpmanager/locale/ctpm.properties");
+          "chrome://ctpmanager/locale/rxm.properties");
     },
 
     /**
@@ -100,7 +100,7 @@ if ("undefined" == typeof(XFPerms)) {
       } else {
         logger =
           { error : function() {}, warn : function() {}, debug : function() {},
-            trace : function() {} };
+            trace : function() {}, info : function() {} };
       }
 
       return logger;
@@ -175,7 +175,8 @@ if ("undefined" == typeof(XFPerms)) {
 
       if ((XFPerms.Permissions.LOCAL_FILES != aDomain) &&
           (0 != aDomain.indexOf("http://")) &&
-          (0 != aDomain.indexOf("https://"))) {
+          (0 != aDomain.indexOf("https://")) &&
+          (0 != aDomain.indexOf("ftp://"))) {
         domain = "http://" + aDomain;
       }
 

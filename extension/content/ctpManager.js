@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Jorge Villalobos
+ * Copyright 2015 Jorge Villalobos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,7 +138,7 @@ XFPermsChrome.Manager = {
     this._logger.debug("add");
 
     if (XFPerms.Permissions.isSinglePermission()) {
-      let domain = { value : "" };
+      let origin = { value : "" };
       let promptResponse;
 
       promptResponse =
@@ -146,10 +146,10 @@ XFPermsChrome.Manager = {
           window, XFPerms.stringBundle.GetStringFromName("ctpm.addDomain.title"),
           XFPerms.stringBundle.formatStringFromName(
             "ctpm.enterDomain.label", [ XFPerms.Permissions.LOCAL_FILES ], 1),
-          domain, null, { value : false });
+          origin, null, { value : false });
 
       if (promptResponse) {
-        let success = XFPerms.Permissions.add(XFPerms.addProtocol(domain.value));
+        let success = XFPerms.Permissions.add(origin.value);
 
         if (!success) {
           this._alert("ctpm.addDomain.title", "ctpm.invalidDomain.label");
@@ -234,27 +234,22 @@ XFPermsChrome.Manager = {
   exportPermissions : function(aEvent) {
     this._logger.debug("exportPermissions");
 
-    let selected = document.getElementById("domains").selectedItems;
-    let count = selected.length;
-    let domains = [];
-    let domain;
+    let permissions = [];
     let plugin;
 
     try {
-      for (let i = 0; i < count; i ++) {
-        domain = selected[i].childNodes[0].getAttribute("label");
+      for (let origin of document.getElementById("domains").selectedItems) {
         plugin =
           ((null != selected[i].childNodes[1]) ?
            selected[i].childNodes[1].getAttribute("value") : null);
-
-        domains.push(
-          { domain : XFPerms.addProtocol(domain), plugin : plugin });
+        permissions.push(
+          { domain : origin.getAttribute("value"), plugin : plugin });
       }
     } catch (e) {
       this._logger.error("exportPermissions\n" + e);
     }
 
-    if (0 < domains.length) {
+    if (0 < permissions.length) {
       let success = true;
 
       try {
@@ -279,7 +274,7 @@ XFPermsChrome.Manager = {
 
         if ((Ci.nsIFilePicker.returnOK == winResult) ||
             (Ci.nsIFilePicker.returnReplace == winResult)) {
-          success = XFPerms.Export.exportPermissions(domains, fp.file);
+          success = XFPerms.Export.exportPermissions(permissions, fp.file);
         }
       } catch (e) {
         success = false;

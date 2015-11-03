@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Jorge Villalobos
+ * Copyright 2015 Jorge Villalobos
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,13 +59,16 @@ XFPerms.Permissions = {
         permission = enumerator.getNext().QueryInterface(Ci.nsIPermission);
 
         if (SINGLE_PERMISSION_NAME == permission.type) {
-          list.push( { domain : permission.host, plugin : null, name : null });
+          list.push(
+            { domain : permission.principal.URI.prePath, plugin : null,
+              name : null });
         } else if (0 == permission.type.indexOf(PERMISSION_PREFIX)) {
           let plugin = permission.type.substring(PERMISSION_PREFIX.length);
           let name = this._getPluginNameByPermission(plugin);
 
           list.push(
-            { domain : permission.host, plugin : plugin, name : name });
+            { domain : permission.principal.URI.prePath, plugin : plugin,
+              name : name });
         }
       }
     } catch (e) {
@@ -76,18 +79,18 @@ XFPerms.Permissions = {
   },
 
   /**
-   * Add a domain / plugin pair to the allowed list.
-   * @param aDomain the domain to add.
+   * Add an origin / plugin pair to the allowed list.
+   * @param aOrigin the origin to add.
    * @param aPlugin the plugin to add the permission to (null in < 20).
    * @return true if successful, false otherwise.
    */
-  add : function(aDomain, aPlugin) {
-    this._logger.debug("add: Domain: " + aDomain + ", plugin: " + aPlugin);
+  add : function(aOrigin, aPlugin) {
+    this._logger.debug("add: Origin: " + aOrigin + ", plugin: " + aPlugin);
 
     let success = false;
 
     try {
-      let uri = this._getURI(aDomain);
+      let uri = this._getURI(aOrigin);
 
       if (null == aPlugin) {
         Services.perms.add(uri, SINGLE_PERMISSION_NAME, ALLOW);
@@ -105,22 +108,24 @@ XFPerms.Permissions = {
   },
 
   /**
-   * Remove a domain / plugin pair from the allowed list.
-   * @param aDomain the domain to remove.
+   * Remove a origin / plugin pair from the allowed list.
+   * @param aOrigin the domain to remove.
    * @param aPlugin the plugin to add the permission to (null in < 20).
    * @return true if successful, false otherwise.
    */
-  remove : function(aDomain, aPlugin) {
-    this._logger.debug("remove: Domain: " + aDomain + ", plugin: " + aPlugin);
+  remove : function(aOrigin, aPlugin) {
+    this._logger.debug("remove: Origin: " + aOrigin + ", plugin: " + aPlugin);
 
     let success = false;
 
     try {
+      let uri = this._getURI(aOrigin);
+
       if (null == aPlugin) {
-        Services.perms.remove(aDomain, SINGLE_PERMISSION_NAME);
+        Services.perms.remove(uri, SINGLE_PERMISSION_NAME);
       } else {
-        Services.perms.remove(aDomain, PERMISSION_PREFIX + aPlugin);
-        Services.perms.remove(aDomain, INSECURE_PERMISSION_PREFIX + aPlugin);
+        Services.perms.remove(uri, PERMISSION_PREFIX + aPlugin);
+        Services.perms.remove(uri, INSECURE_PERMISSION_PREFIX + aPlugin);
       }
 
       success = true;
@@ -303,14 +308,14 @@ XFPerms.Permissions = {
   },
 
   /**
-   * Returns an nsIURI version of the domain string.
-   * @param aDomainString the user-provided domain string.
-   * @return the nsIURI that corresponds to the domain string.
+   * Returns an nsIURI version of the origin string.
+   * @param aOrigin the user-provided origin string.
+   * @return the nsIURI that corresponds to the origin string.
    */
-  _getURI : function(aDomainString) {
+  _getURI : function(aOrigin) {
     this._logger.trace("_getURI");
 
-    return Services.io.newURI(aDomainString, null, null);
+    return Services.io.newURI(aOrigin, null, null);
   }
 };
 

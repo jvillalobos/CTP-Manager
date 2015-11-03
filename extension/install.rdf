@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  - Copyright 2014 Jorge Villalobos
+  - Copyright 2015 Jorge Villalobos
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
     <em:id>click-to-play-manager@xulforge.com</em:id>
     <em:name>Click-to-Play Manager</em:name>
     <em:description>Manages the Click-to-Play domain whitelist.</em:description>
-    <em:version>1.3.1</em:version>
+    <em:version>1.4</em:version>
     <em:creator>Jorge Villalobos</em:creator>
     <em:homepageURL>http://github.com/jvillalobos/CTP-Manager</em:homepageURL>
     <em:bootstrap>true</em:bootstrap>
@@ -34,8 +34,8 @@
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>32.*</em:maxVersion>
+        <em:minVersion>42.0</em:minVersion>
+        <em:maxVersion>43.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -43,17 +43,8 @@
     <em:targetApplication>
       <Description>
         <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-        <em:minVersion>2.14</em:minVersion>
-        <em:maxVersion>2.29.*</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-
-    <!-- Firefox Mobile -->
-    <em:targetApplication>
-      <Description>
-        <em:id>{a23983c0-fd0e-11dc-95ff-0800200c9a66}</em:id>
-        <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>32.*</em:maxVersion>
+        <em:minVersion>2.39</em:minVersion>
+        <em:maxVersion>2.40.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -61,8 +52,8 @@
     <em:targetApplication>
       <Description>
         <em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
-        <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>19.*</em:maxVersion>
+        <em:minVersion>42.0</em:minVersion>
+        <em:maxVersion>43.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
