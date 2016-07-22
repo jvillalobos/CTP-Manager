@@ -39,9 +39,11 @@ AboutPage.prototype = {
   newChannel : function(aURI) {
     let ioService =
       Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
-    let channel =
-      ioService.newChannel(
+    let uri =
+      ioService.newURI(
         "chrome://ctpmanager/content/ctpAbout.xul", null, null);
+    let channel =
+      ioService.newChannelFromURI2(uri, null, null, null, null, null);
 
     channel.originalURI = aURI;
 
