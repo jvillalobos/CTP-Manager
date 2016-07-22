@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  - Copyright 2015 Jorge Villalobos
+  - Copyright 2016 Jorge Villalobos
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -23,10 +23,11 @@
     <em:id>click-to-play-manager@xulforge.com</em:id>
     <em:name>Click-to-Play Manager</em:name>
     <em:description>Manages the Click-to-Play domain whitelist.</em:description>
-    <em:version>1.4</em:version>
+    <em:version>1.4.1</em:version>
     <em:creator>Jorge Villalobos</em:creator>
     <em:homepageURL>http://github.com/jvillalobos/CTP-Manager</em:homepageURL>
     <em:bootstrap>true</em:bootstrap>
+    <em:multiprocessCompatible>true</em:multiprocessCompatible>
     <em:type>2</em:type>
     <em:optionsURL>chrome://ctpmanager/content/ctpManager.xul</em:optionsURL>
 
@@ -35,7 +36,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>42.0</em:minVersion>
-        <em:maxVersion>44.*</em:maxVersion>
+        <em:maxVersion>49.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -53,7 +54,7 @@
       <Description>
         <em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
         <em:minVersion>42.0</em:minVersion>
-        <em:maxVersion>44.*</em:maxVersion>
+        <em:maxVersion>49.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
